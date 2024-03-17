@@ -1,28 +1,36 @@
 import React from "react";
-import { logo } from "../assests/index";
+import { logo, cart, user } from "../assests/index";
 
 function Header() {
   return (
-    <div className="w-full h-20 bg-white border-b-[1px] border-b-gray-900">
+    <div className="font-title w-full h-20 bg-white border-b-[1px] border-b-gray-900 ">
       <div className="max-w-screen-2xl h-full ml-20 mr-auto flex items-center justify-between">
         <div>
           <img className="w-24" src={logo} alt="logo"></img>
         </div>
-        <div>
-          <ul className="flex gap-10 items-center">
-            <li className="text-base text-blue-950  font-bold hover:text-orange-700 hover:underline underline-offset-2 decoration-[1px] cursor-pointer">
+        <div className="flex gap-9 items-center">
+          <ul className="flex gap-9 items-center">
+            <li className="text-base text-blue-950  font-bold hover:text-orange-700 hover:underline underline-offset-2 decoration-[1px] cursor-pointer duration-300">
               Home
             </li>
-            <li className="text-base text-blue-950 font-bold hover:text-orange-700 hover:underline underline-offset-2 decoration-[1px] cursor-pointer">
+            <li className="text-base text-blue-950 font-bold hover:text-orange-700 hover:underline underline-offset-2 decoration-[1px] cursor-pointer duration-300">
               Categories
             </li>
-            <li className="text-base text-blue-950  font-bold hover:text-orange-700 hover:underline underline-offset-2 decoration-[1px] cursor-pointer">
+            <li className="text-base text-blue-950  font-bold hover:text-orange-700 hover:underline underline-offset-2 decoration-[1px] cursor-pointer duration-300">
               Authors
             </li>
-            <li className="text-base text-blue-950  font-bold hover:text-orange-700 hover:underline underline-offset-2 decoration-[1px] cursor-pointer">
+            <li className="text-base text-blue-950  font-bold hover:text-orange-700 hover:underline underline-offset-2 decoration-[1px] cursor-pointer duration-300">
               Publishers
             </li>
           </ul>
+
+          <div className="relative">
+            <img className="w-10  h-9" src={cart} alt="cart"></img>
+            <span className="absolute w-6 top-1.5 left-3 text-sm flex items-center justify-center font-semibold">
+              0
+            </span>
+          </div>
+          <img className="w-9 h-9 rounded-xl" src={user} alt="user" />
         </div>
       </div>
     </div>
