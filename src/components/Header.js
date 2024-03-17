@@ -6,7 +6,7 @@ function Header() {
     <div className="font-title w-full h-20 bg-white border-b-[1px] border-b-gray-900 ">
       <div className="max-w-screen-2xl h-full ml-20 mr-auto flex items-center justify-between">
         <div>
-          <img className="w-24" src={logo} alt="logo"></img>
+          <img className="w-36 h-18 rounded-full" src={logo} alt="logo"></img>
         </div>
         <div className="flex gap-9 items-center">
           <ul className="flex gap-9 items-center">
