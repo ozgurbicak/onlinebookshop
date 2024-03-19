@@ -4,15 +4,19 @@ import Books from "../components/Books";
 import { useLoaderData } from "react-router";
 
 function Home() {
-  const [books, setBooks] = useState([]);
+  const [bookData, setBookData] = useState([]);
+
   const data = useLoaderData();
+
   useEffect(() => {
-    setBooks(data.data);
+    setBookData(data.data);
   }, [data]);
+
+  console.log(bookData);
   return (
     <div>
       <Banner />
-      <Books books={books} />
+      <Books books={bookData} />
     </div>
   );
 }

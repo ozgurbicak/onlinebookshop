@@ -1,24 +1,39 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
-function BooksCard({ book }) {
+function BooksCard({ bookData }) {
+  const navigate = useNavigate();
+
+  const id = bookData.title;
+  const idString = id.toLowerCase().split(" ").join("");
+
+  //handlebook fonksiyonu her çağrıldıgında kitaplara tıklamayla birlikte
+  //react-dom navigate ile /book/kitabınidsine gidiyoruz ve bookData yı prop olarak yolluyoruz.
+  function handleBook() {
+    navigate(`/book/${idString}`, {
+      state: {
+        item: bookData,
+      },
+    });
+  }
   return (
-    <div className="group">
-      <div className="cursor-pointer overflow-hidden">
-        {console.log(book)}
-
+    <div className="group relative">
+      <div onClick={handleBook} className="cursor-pointer overflow-hidden">
         <img
           className="w-full h-auto max-w-[300px] max-h-[300px] object-contain object-center group-hover:scale-105 duration-500"
-          src={book.image}
+          src={bookData.image}
           alt="bookImage"
         />
       </div>
       <div className=" p-4">
-        <h2 className="text-lg font-semibold mb-2 text-center">{book.title}</h2>
-        <p className="text-gray-600 mb-2 text-center">{book.author}</p>
+        <h2 className="text-lg font-semibold mb-2 text-center">
+          {bookData.title}
+        </h2>
+        <p className="text-gray-600 mb-2 text-center">{bookData.author}</p>
 
         <div className="flex justify-between items-center p-1 m-3">
           <p className="text-black font-semibold">
-            {book.price.displayValue} USD
+            {bookData.price.displayValue} USD
           </p>
           <button className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition-colors duration-300">
             Add to Cart
