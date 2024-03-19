@@ -11,12 +11,14 @@ function Banner() {
       src={banner1}
       alt="banner1"
     />,
+
     <img
       key="banner2"
       className="w-screen h-full object-cover"
       src={banner2}
       alt="banner2"
     />,
+
     <img
       key="banner3"
       className="w-screen h-full object-cover"
@@ -24,8 +26,8 @@ function Banner() {
       alt="banner3"
     />,
   ];
-  const [currentSlide, setCurrentSlide] = useState(0);
 
+  const [currentSlide, setCurrentSlide] = useState(0);
   const prevSlide = () => {
     setCurrentSlide(currentSlide === 0 ? banners.length - 1 : currentSlide - 1);
   };

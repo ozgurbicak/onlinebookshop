@@ -1,9 +1,9 @@
 import React from "react";
-import { logo, cart, user } from "../assests/index";
+import { logo, cart, user } from "../assets/index";
 
 function Header() {
   return (
-    <div className="font-title w-full h-20 bg-white border-b-[1px] border-b-gray-900 ">
+    <div className="font-title w-full h-20 bg-white border-b-[1px] border-b-gray-900 sticky top-0 z-50">
       <div className="max-w-screen-2xl h-full ml-20 mr-auto flex items-center justify-between">
         <div>
           <img className="w-36 h-18 rounded-full" src={logo} alt="logo"></img>

@@ -1,13 +1,18 @@
+import { useEffect, useState } from "react";
 import Banner from "../components/Banner";
 import Books from "../components/Books";
-import Footer from "../components/Footer";
+import { useLoaderData } from "react-router";
 
 function Home() {
+  const [books, setBooks] = useState([]);
+  const data = useLoaderData();
+  useEffect(() => {
+    setBooks(data.data);
+  }, [data]);
   return (
     <div>
       <Banner />
-      <Books />
-      <Footer />
+      <Books books={books} />
     </div>
   );
 }

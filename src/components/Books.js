@@ -1,6 +1,6 @@
 import React from "react";
 import BooksCard from "./BooksCard";
-function Books() {
+function Books({ books }) {
   return (
     <div className="py-10">
       <div className="flex flex-col items-center gap-4 ">
@@ -24,8 +24,10 @@ function Books() {
           Maecenas adipiscing ante non diam sodales hendrerit.
         </p>
       </div>
-      <div className="max-w-screen-xl mx-auto">
-        <BooksCard />
+      <div className="max-w-screen-xl mx-auto py-10 grid grid-cols-4 gap-10">
+        {books.map((item) => (
+          <BooksCard key={item.ISBN} book={item} />
+        ))}
       </div>
     </div>
   );
