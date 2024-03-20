@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaStar } from "react-icons/fa";
+import StarRating from "./StarRating";
 import { useLocation } from "react-router";
 
 function BookDetails() {
@@ -23,13 +23,12 @@ function BookDetails() {
     setQuantity(quantity > 0 ? quantity - 1 : quantity);
   }
 
-  function handleStarClick(value) {
-    setRating(value);
+  function handleAddToCart() {
+    console.log(`Added ${quantity} ${details.title} to cart`);
   }
 
-  function handleAddToCart() {
-    // Burada sepete ekleme işlemleri yapılabilir
-    console.log(`Added ${quantity} ${details.title} to cart`);
+  function handleSetRating(rating) {
+    setRating(rating);
   }
 
   return (
@@ -57,15 +56,11 @@ function BookDetails() {
           </div>
           <div className="flex items-center gap-2 text-base">
             <div className="flex items-center">
-              {[...Array(5)].map((_, index) => (
-                <FaStar
-                  key={index}
-                  onClick={() => handleStarClick(index + 1)}
-                  className={`cursor-pointer text-yellow-500 ${
-                    index < rating ? "fill-current" : "stroke-current"
-                  }`}
-                />
-              ))}
+              <StarRating
+                maxRating={5}
+                defaultRating={rating}
+                onSetRating={handleSetRating}
+              />
             </div>
             <p className="text-xs text-gray-500">(1 Customer review)</p>
           </div>
