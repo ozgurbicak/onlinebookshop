@@ -27,8 +27,9 @@ function Books({ books }) {
 
       <div className="max-w-screen-xl mx-auto py-10 grid grid-cols-4 gap-10">
         {/* her bir kitap için bookscard oluşturuyoruz */}
+
         {books.map((item) => (
-          <BooksCard key={item.ISBN} bookData={item} />
+          <BooksCard key={item.id} bookData={item} />
         ))}
       </div>
     </div>

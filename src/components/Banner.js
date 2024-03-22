@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
-import { banner1, banner2, banner3 } from "./banners/banner";
+import { banner1, banner2, banner3 } from "../assets/banners/banner";
 
 function Banner() {
   const banners = [

@@ -24,7 +24,7 @@ function BookDetails() {
   }
 
   function handleAddToCart() {
-    console.log(`Added ${quantity} ${details.title} to cart`);
+    console.log(`Added ${quantity} ${details.book_name} to cart`);
   }
 
   function handleSetRating(rating) {
@@ -44,12 +44,12 @@ function BookDetails() {
 
         <div className="w-3/5 flex flex-col justify-center gap-12">
           <div>
-            <h2 className="text-4xl font-semibold">{details.title}</h2>
-            <p className="text-xl text-gray-600">{details.author}</p>
+            <h2 className="text-4xl font-semibold">{details.book_name}</h2>
+            <p className="text-xl text-gray-600">{details.author_name}</p>
             <div className="flex items-center gap-4 mt-3">
-              {details.price && details.price.value && (
+              {details.price && (
                 <p className="text-2xl font-medium text-slate-700">
-                  {details.price.value}$
+                  {details.price}$
                 </p>
               )}
             </div>

@@ -6,3 +6,8 @@ export async function authorsData() {
   );
   return author;
 }
+
+// export async function getBooks() {
+//   const books = await axios.get("https://bookstore-api.p.rapidapi.com/books");
+//   return books;
+// }

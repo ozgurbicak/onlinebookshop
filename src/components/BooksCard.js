@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 function BooksCard({ bookData }) {
   const navigate = useNavigate();
 
-  const id = bookData.title;
+  const id = bookData.book_name;
   const idString = id.toLowerCase().split(" ").join("");
 
   //handlebook fonksiyonu her çağrıldıgında kitaplara tıklamayla birlikte
@@ -27,14 +27,12 @@ function BooksCard({ bookData }) {
       </div>
       <div className=" p-4">
         <h2 className="text-lg font-semibold mb-2 text-center">
-          {bookData.title}
+          {bookData.book_name}
         </h2>
-        <p className="text-gray-600 mb-2 text-center">{bookData.author}</p>
+        <p className="text-gray-600 mb-2 text-center">{bookData.author_name}</p>
 
         <div className="flex justify-between items-center p-1 m-3">
-          <p className="text-black font-semibold">
-            {bookData.price.displayValue} USD
-          </p>
+          <p className="text-black font-semibold p-3">{bookData.price} USD</p>
           <button className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition-colors duration-300">
             Add to Cart
           </button>

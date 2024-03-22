@@ -14,6 +14,7 @@ import {
   ScrollRestoration,
 } from "react-router-dom";
 import Authors from "./pages/Authors";
+import Register from "./pages/Register";
 
 const Layout = () => {
   return (
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
         path: "/authors",
         element: <Authors />,
         loader: authorsData,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
     ],
   },
