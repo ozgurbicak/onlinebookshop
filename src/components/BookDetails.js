@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
 import StarRating from "./StarRating";
 import { useLocation } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../redux/BookSlice";
+import { ToastContainer, toast } from "react-toastify";
 
 function BookDetails() {
+  const [quantity, setQuantity] = useState(1);
+
   const [details, setDetails] = useState({});
   const [rating, setRating] = useState(0);
   const location = useLocation();
+  const dispatch = useDispatch();
+  const productData = useSelector((state) => state.book.productData);
 
   useEffect(() => {
     setDetails(location.state.item);
@@ -13,18 +20,12 @@ function BookDetails() {
 
   console.log(details);
 
-  const [quantity, setQuantity] = useState(0);
-
   function handleButtonPlus() {
     setQuantity(quantity < 10 ? quantity + 1 : quantity);
   }
 
   function handleButtonMinus() {
     setQuantity(quantity > 0 ? quantity - 1 : quantity);
-  }
-
-  function handleAddToCart() {
-    console.log(`Added ${quantity} ${details.book_name} to cart`);
   }
 
   function handleSetRating(rating) {
@@ -85,14 +86,40 @@ function BookDetails() {
               </button>
             </div>
             <button
-              onClick={handleAddToCart}
+              onClick={() =>
+                dispatch(
+                  addToCart({
+                    id: details.id,
+                    book_name: details.book_name,
+                    author_name: details.author_name,
+                    quantity: quantity,
+                    price: details.price,
+                  })
+                )
+              }
               className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
               Add to Cart
             </button>
           </div>
+          <p className="text-base font-medium text-gray-500">
+            Categories:{" "}
+            <span className="font-medium capitalize">{details.categories}</span>
+          </p>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 }

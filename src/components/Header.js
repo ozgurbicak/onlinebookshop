@@ -1,8 +1,12 @@
 import React from "react";
 import { logo, cart, user } from "../assets/index";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Header() {
+  const productData = useSelector((state) => state.book.productData);
+  const quantity = productData.length;
+
   return (
     <div className="font-title w-full h-20 bg-white border-b-[1px] border-b-gray-900 sticky top-0 z-50">
       <div className="max-w-screen-2xl h-full ml-20 mr-auto flex items-center justify-between">
@@ -30,7 +34,7 @@ function Header() {
           <div className="relative">
             <img className="w-10  h-9" src={cart} alt="cart"></img>
             <span className="absolute w-6 top-1.5 left-3 text-sm flex items-center justify-center font-semibold">
-              0
+              {quantity}
             </span>
           </div>
           <img className="w-9 h-9 rounded-xl" src={user} alt="user" />

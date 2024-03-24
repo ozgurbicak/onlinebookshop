@@ -1,7 +1,11 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { addToCart } from "../redux/BookSlice";
 
 function BooksCard({ bookData }) {
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const id = bookData.book_name;
@@ -33,7 +37,20 @@ function BooksCard({ bookData }) {
 
         <div className="flex justify-between items-center p-1 m-3">
           <p className="text-black font-semibold p-3">{bookData.price} USD</p>
-          <button className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition-colors duration-300">
+          <button
+            onClick={() =>
+              dispatch(
+                addToCart({
+                  id: bookData.id,
+                  book_name: bookData.book_name,
+                  author_name: bookData.author_name,
+                  quantity: 1,
+                  price: bookData.price,
+                })
+              )
+            }
+            className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition-colors duration-300"
+          >
             Add to Cart
           </button>
         </div>
