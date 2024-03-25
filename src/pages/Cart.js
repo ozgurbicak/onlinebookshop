@@ -1,5 +1,5 @@
 import { banner } from "../assets/index";
-import CartItem from "../components/CartItem";
+import Carts from "../components/cart/Carts";
 
 function Cart() {
   return (
@@ -7,7 +7,7 @@ function Cart() {
       <img className="w-full h-60 object-cover" src={banner} alt="banner"></img>
 
       <div className="max-w-screen-xl mx-auto py-20 flex">
-        <CartItem />
+        <Carts />
         <div className="w-1/3 bg-white py-6 px-4">
           <div className="flex flex-col gap-6 border-b-[1px] border-b-gray-400 pb-6">
             <h2 className="text-2xl font-medium">cart totals</h2>
