@@ -16,6 +16,9 @@ import {
 import Authors from "./pages/Authors";
 import Register from "./pages/Register";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Layout = () => {
   return (
     <div>
@@ -62,6 +65,18 @@ function App() {
   return (
     <div className="font-body">
       <RouterProvider router={router} />
+      <ToastContainer
+        position="top-left"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 }

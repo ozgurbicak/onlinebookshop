@@ -3,7 +3,7 @@ import StarRating from "./StarRating";
 import { useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/BookSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 function BookDetails() {
   const [quantity, setQuantity] = useState(1);
@@ -43,6 +43,7 @@ function BookDetails() {
           author_name: details.author_name,
           quantity: quantity,
           price: details.price,
+          image: details.image,
         })
       );
       toast.success(
@@ -119,18 +120,6 @@ function BookDetails() {
           </p>
         </div>
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
     </div>
   );
 }
