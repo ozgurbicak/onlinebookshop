@@ -10,17 +10,58 @@ export const BookSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
+      const existingItem = state.productData.find(
+        (item) => item.id === action.payload.id
+      );
+
+      if (existingItem) {
+        if (existingItem.quantity < 10) {
+          const totalQuantity = existingItem.quantity + action.payload.quantity;
+          existingItem.quantity = Math.min(totalQuantity, 10);
+          console.log(existingItem.quantity);
+        } else {
+          console.log(
+            "You can only have a maximum of 10 of the same book in your cart"
+          );
+        }
+      } else {
+        state.productData.push(action.payload);
+      }
+    },
+    deleteItem: (state, action) => {
+      state.productData = state.productData.filter(
+        (item) => item.id !== action.payload
+      );
+    },
+    resetCart: (state) => {
+      state.productData = [];
+    },
+    increamentQuantity: (state, action) => {
       const item = state.productData.find(
         (item) => item.id === action.payload.id
       );
       if (item) {
-        item.quantity += action.payload.quantity;
+        item.quantity++;
+      }
+    },
+    decrementQuantity: (state, action) => {
+      const item = state.productData.find(
+        (item) => item.id === action.payload.id
+      );
+      if (item.quantity === 1) {
+        item.quantity = 1;
       } else {
-        state.productData.push(action.payload);
+        item.quantity--;
       }
     },
   },
 });
 
-export const { addToCart } = BookSlice.actions;
+export const {
+  addToCart,
+  deleteItem,
+  resetCart,
+  increamentQuantity,
+  decrementQuantity,
+} = BookSlice.actions;
 export default BookSlice.reducer;

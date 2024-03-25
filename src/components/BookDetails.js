@@ -7,7 +7,6 @@ import { ToastContainer, toast } from "react-toastify";
 
 function BookDetails() {
   const [quantity, setQuantity] = useState(1);
-
   const [details, setDetails] = useState({});
   const [rating, setRating] = useState(0);
   const location = useLocation();
@@ -17,8 +16,6 @@ function BookDetails() {
   useEffect(() => {
     setDetails(location.state.item);
   }, [location]);
-
-  console.log(details);
 
   function handleButtonPlus() {
     setQuantity(quantity < 10 ? quantity + 1 : quantity);
@@ -30,6 +27,30 @@ function BookDetails() {
 
   function handleSetRating(rating) {
     setRating(rating);
+  }
+
+  function handleAddToCart() {
+    const existingItem = productData.find((item) => item.id === details.id);
+    if (existingItem && existingItem.quantity >= 10) {
+      toast.error(
+        `You can only have a maximum of 10 of the same book in your cart`
+      );
+    } else {
+      dispatch(
+        addToCart({
+          id: details.id,
+          book_name: details.book_name,
+          author_name: details.author_name,
+          quantity: quantity,
+          price: details.price,
+        })
+      );
+      toast.success(
+        `${quantity} "${details.book_name}" ${
+          quantity === 1 ? "book" : "books"
+        } has been added to your cart`
+      );
+    }
   }
 
   return (
@@ -86,17 +107,7 @@ function BookDetails() {
               </button>
             </div>
             <button
-              onClick={() =>
-                dispatch(
-                  addToCart({
-                    id: details.id,
-                    book_name: details.book_name,
-                    author_name: details.author_name,
-                    quantity: quantity,
-                    price: details.price,
-                  })
-                )
-              }
+              onClick={handleAddToCart}
               className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
               Add to Cart

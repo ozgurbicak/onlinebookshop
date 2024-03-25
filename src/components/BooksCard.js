@@ -1,7 +1,8 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { addToCart } from "../redux/BookSlice";
+import { ToastContainer, toast } from "react-toastify";
 
 function BooksCard({ bookData }) {
   const dispatch = useDispatch();
@@ -20,6 +21,29 @@ function BooksCard({ bookData }) {
       },
     });
   }
+
+  const productData = useSelector((item) => item.book.productData);
+
+  function handleAddToCart() {
+    const existingItem = productData.find((item) => item.id === bookData.id);
+    if (existingItem && existingItem.quantity >= 10) {
+      toast.error(
+        `You can only have a maximum of 10 of the same book in your cart`
+      );
+    } else {
+      dispatch(
+        addToCart({
+          id: bookData.id,
+          book_name: bookData.book_name,
+          author_name: bookData.author_name,
+          quantity: 1,
+          price: bookData.price,
+        })
+      );
+      toast.success(`${bookData.book_name} has been added to your cart`);
+    }
+  }
+
   return (
     <div className="group relative">
       <div onClick={handleBook} className="cursor-pointer overflow-hidden">
@@ -38,23 +62,25 @@ function BooksCard({ bookData }) {
         <div className="flex justify-between items-center p-1 m-3">
           <p className="text-black font-semibold p-3">{bookData.price} USD</p>
           <button
-            onClick={() =>
-              dispatch(
-                addToCart({
-                  id: bookData.id,
-                  book_name: bookData.book_name,
-                  author_name: bookData.author_name,
-                  quantity: 1,
-                  price: bookData.price,
-                })
-              )
-            }
+            onClick={handleAddToCart}
             className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition-colors duration-300"
           >
             Add to Cart
           </button>
         </div>
       </div>
+      <ToastContainer
+        position="top-left"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 }

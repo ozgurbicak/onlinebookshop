@@ -12,7 +12,6 @@ function Home() {
     setBookData(data.data);
   }, [data]);
 
-  console.log(bookData);
   return (
     <div>
       <Banner />

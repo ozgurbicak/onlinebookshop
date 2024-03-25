@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 function Header() {
   const productData = useSelector((state) => state.book.productData);
+  console.log();
   const quantity = productData.length;
 
   return (
@@ -30,13 +31,14 @@ function Header() {
               Publishers
             </li>
           </ul>
-
-          <div className="relative">
-            <img className="w-10  h-9" src={cart} alt="cart"></img>
-            <span className="absolute w-6 top-1.5 left-3 text-sm flex items-center justify-center font-semibold">
-              {quantity}
-            </span>
-          </div>
+          <Link to="/cart">
+            <div className="relative">
+              <img className="w-10  h-9" src={cart} alt="cart"></img>
+              <span className="absolute w-6 top-1.5 left-3 text-sm flex items-center justify-center font-semibold">
+                {quantity}
+              </span>
+            </div>
+          </Link>
           <img className="w-9 h-9 rounded-xl" src={user} alt="user" />
         </div>
       </div>
