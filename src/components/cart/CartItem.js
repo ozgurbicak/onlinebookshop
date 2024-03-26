@@ -1,6 +1,10 @@
 import { useDispatch } from "react-redux";
 import { MdOutlineClose } from "react-icons/md";
-import { deleteItem } from "../../redux/BookSlice";
+import {
+  decrementQuantity,
+  deleteItem,
+  increamentQuantity,
+} from "../../redux/BookSlice";
 import { toast } from "react-toastify"; // Import toast for deletion confirmation
 
 function CartItem({ item }) {
@@ -36,6 +40,7 @@ function CartItem({ item }) {
           <div className="flex items-center justify-between mt-4">
             <div className="flex items-center gap-2">
               <button
+                onClick={() => dispatch(decrementQuantity({ id: item.id }))}
                 className="px-3 py-2 text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
                 disabled={item.quantity === 1}
               >
@@ -44,7 +49,17 @@ function CartItem({ item }) {
               <span className="px-3 py-2 text-lg font-medium bg-white rounded-full border border-gray-300">
                 {item.quantity}
               </span>
-              <button className="px-3 py-2 text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
+              <button
+                onClick={() =>
+                  dispatch(
+                    increamentQuantity({
+                      id: item.id,
+                    })
+                  )
+                }
+                className="px-3 py-2 text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                disabled={item.quantity === 10}
+              >
                 +
               </button>
             </div>

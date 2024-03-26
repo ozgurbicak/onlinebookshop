@@ -3,64 +3,77 @@ import React from "react";
 function Register() {
   return (
     <form className="flex justify-center items-center h-screen font-title">
-      <div className="w-3/5 h-4/5 bg-slate-100 border border-black flex justify-center items-center rounded-md shadow-lg">
-        <div className="flex flex-col w-4/5">
-          <div className="mb-4">
-            <label className="m-2 p-2 font-bold text-gray-800" htmlFor="name">
+      <div className="w-full max-w-md bg-slate-100 shadow-md rounded-md overflow-hidden">
+        <div className="px-8 py-6">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            Register
+          </h2>
+          <div className="mb-6">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Full Name
             </label>
             <input
-              className="m-2 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-              name="name"
               type="text"
+              id="name"
+              name="name"
+              className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               required
             />
           </div>
-          <div className="mb-4">
-            <label className="m-2 p-2 font-bold text-gray-800" htmlFor="email">
+          <div className="mb-6">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               E-Mail Address
             </label>
             <input
-              className="m-2 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-              name="email"
               type="email"
+              id="email"
+              name="email"
+              className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-6">
             <label
-              className="m-2 p-2 font-bold text-gray-800"
               htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-2"
             >
               Password
             </label>
             <input
-              className="m-2 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-              name="password"
               type="password"
+              id="password"
+              name="password"
+              className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-6">
             <label
-              className="m-2 p-2 font-bold text-gray-800"
               htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700 mb-2"
             >
               Confirm Password
             </label>
             <input
-              className="m-2 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-              name="confirmPassword"
               type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               required
             />
           </div>
           <div className="flex justify-center">
             <button
-              className="m-2 p-3 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500"
               type="submit"
+              className="w-full px-4 py-2 text-white font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
             >
-              Sign up
+              Sign Up
             </button>
           </div>
         </div>

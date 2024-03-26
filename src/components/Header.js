@@ -39,7 +39,9 @@ function Header() {
               </span>
             </div>
           </Link>
-          <img className="w-9 h-9 rounded-xl" src={user} alt="user" />
+          <Link to="/login">
+            <img className="w-9 h-9 rounded-xl" src={user} alt="user" />
+          </Link>
         </div>
       </div>
     </div>

@@ -18,6 +18,7 @@ export const BookSlice = createSlice({
         if (existingItem.quantity < 10) {
           const totalQuantity = existingItem.quantity + action.payload.quantity;
           existingItem.quantity = Math.min(totalQuantity, 10);
+
           console.log(existingItem.quantity);
         } else {
           console.log(
