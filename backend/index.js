@@ -1,15 +1,10 @@
 import express from "express";
 import mysql from "mysql";
 import cors from "cors";
-const app = express();
+import bodyParser from "body-parser";
+import authRouter from "./googleAuth.js"; // googleAuth.js dosyasını dahil edin
 
-// const cors = require("cors");
-// const corsOptions = {
-//   origin: "http://localhost:3000",
-//   credentials: true, //access-control-allow-credentials:true
-//   optionSuccessStatus: 200,
-// };
-// app.use(cors(corsOptions));
+const app = express();
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -19,6 +14,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions)); // Use cors middleware
+app.use(bodyParser.json()); // Parse JSON data from requests
 
 const connectionDB = mysql.createConnection({
   host: "localhost",
@@ -39,6 +35,7 @@ app.get("/api/books", (req, res) => {
     return res.json(data);
   });
 });
+app.use("/api/auth", authRouter);
 
 app.listen(5000, () => {
   console.log("Connected to backend!!");

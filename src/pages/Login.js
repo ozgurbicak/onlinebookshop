@@ -2,15 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { facebook, google } from "../assets/index"; // Assuming paths to icons
 
-import Register from "./Register";
-
 // import axios from "axios";
 // import GoogleAuth from "../api/GoogleAuth";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showRegister, setShowRegister] = useState(false);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -86,7 +83,6 @@ function Login() {
           <img src={google} alt="Google icon" className="w-6 h-6 mr-2" />
           <span className="text-base font-medium">Sign in with Google</span>
         </button>
-        {/* <GoogleAuth /> */}
         <button
           type="button"
           className="flex items-center justify-center w-full h-12 px-4 rounded-md text-gray-700 bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
