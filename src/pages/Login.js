@@ -1,14 +1,26 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { facebook, google } from "../assets/index"; // Assuming paths to icons
-
-// import axios from "axios";
-// import GoogleAuth from "../api/GoogleAuth";
+import { facebook, google } from "../assets/index"; //
+import axios from "axios"; // axios kütüphanesini ekleyin
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const handleGoogleLogin = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/auth/google/"
+      );
+      window.open(response.data.url, "_blank");
+    } catch (error) {
+      console.error("Google Auth Error:", error);
+    }
+  };
+  // Google ile giriş butonuna tıklandığında çalışacak fonksiyon
+  function handleGoogleLogin2() {
+    window.location.href = "http://localhost:5000/auth/google";
+  }
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -78,6 +90,7 @@ function Login() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <button
           type="button"
+          onClick={handleGoogleLogin2} // Google Auth'u tetikleyen fonksiyonu ekleyin
           className="flex items-center justify-center w-full h-12 px-4 rounded-md text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         >
           <img src={google} alt="Google icon" className="w-6 h-6 mr-2" />

@@ -3,11 +3,8 @@ import { google } from "googleapis";
 
 const router = express.Router();
 
-const clientId =
-  "1051985378257-tt7u9vuoltfdnd2tf5tct1c7p6cmc02m.apps.googleusercontent.com";
-const clientSecret = "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";
 const oauth2Client = new google.auth.OAuth2(
-  clientId,
+  client_id,
   clientSecret,
   "http://localhost:5000/auth/google/callback",
   [
@@ -27,8 +24,8 @@ router.get("/google-auth", (req, res) => {
   res.send({ url });
 });
 
-router.post("/google-auth/callback", (req, res) => {
-  const { code } = req.body;
+router.get("/google/callback", (req, res) => {
+  const { code } = req.query;
 
   oauth2Client.getToken(code, (err, tokens) => {
     if (err) {
@@ -37,24 +34,19 @@ router.post("/google-auth/callback", (req, res) => {
     }
 
     oauth2Client.setCredentials(tokens);
-    const oauth2 = google.oauth2("v2");
+    const oauth2 = google.oauth2({ version: "v2", auth: oauth2Client });
 
-    oauth2.userinfo.get(
-      {
-        access_token: tokens.access_token,
-      },
-      (err, user) => {
-        if (err) {
-          res.status(400).send({ error: err.message });
-          return;
-        }
-
-        // ... işleme al kullanıcı bilgilerini ...
-
-        res.send({ user: user.data });
+    oauth2.userinfo.get((err, response) => {
+      if (err) {
+        res.status(400).send({ error: err.message });
+        return;
       }
-    );
+
+      // ... kullanıcı bilgilerini işleme al ...
+
+      res.send({ user: response.data });
+    });
   });
 });
 
-export default router; // router nesnesini default olarak export edin
+export default router;
