@@ -9,18 +9,26 @@ function Login() {
 
   const handleGoogleLogin = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/auth/google/"
-      );
+      const response = await axios.get("http://localhost:5000/auth/google");
       window.open(response.data.url, "_blank");
     } catch (error) {
       console.error("Google Auth Error:", error);
     }
   };
-  // Google ile giriş butonuna tıklandığında çalışacak fonksiyon
+
   function handleGoogleLogin2() {
-    window.location.href = "http://localhost:5000/auth/google";
+    const width = 600;
+    const height = 600;
+    const left = window.innerWidth / 2 - width / 2;
+    const top = window.innerHeight / 2 - height / 2;
+
+    window.open(
+      "http://localhost:5000/auth/google",
+      "_blank",
+      `width=${width}, height=${height}, left=${left}, top=${top}`
+    );
   }
+
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
