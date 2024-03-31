@@ -7,16 +7,42 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleGoogleLogin = async () => {
+  const [errorMessage, setErrorMessage] = useState(null); // State for error message
+
+  const handleSubmitLogin = async (e) => {
+    e.preventDefault();
+
     try {
-      const response = await axios.get("http://localhost:5000/auth/google");
-      window.open(response.data.url, "_blank");
+      const response = await axios.post("http://localhost:5000/api/login/", {
+        email,
+        password,
+      });
+
+      if (response.data.success) {
+        console.log("Giriş başarılı!");
+        // Handle successful login here (e.g., redirect to dashboard)
+      } else {
+        setErrorMessage(response.data.message);
+        alert(errorMessage);
+        // Display error message from server
+      }
     } catch (error) {
-      console.error("Google Auth Error:", error);
+      setErrorMessage("Bir hata oluştu."); // Generic error message
+      alert(errorMessage);
+      console.error("Hata:", error);
     }
   };
 
-  function handleGoogleLogin2() {
+  // const handleGoogleLogin = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:5000/auth/google");
+  //     window.open(response.data.url, "_blank");
+  //   } catch (error) {
+  //     console.error("Google Auth Error:", error);
+  //   }
+  // };
+
+  function handleGoogleLogin() {
     const width = 600;
     const height = 600;
     const left = window.innerWidth / 2 - width / 2;
@@ -29,6 +55,10 @@ function Login() {
     );
   }
 
+  function handleFacebookLogin() {
+    window.open("http://localhost:5000/auth/facebook");
+  }
+
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -37,18 +67,13 @@ function Login() {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Burada giriş işlemlerini yapabilirsiniz
-  };
-
   return (
     <div className="container mx-auto px-4 py-20 flex flex-col items-center justify-center gap-10">
       <h2 className="text-3xl font-bold text-gray-800">Sign In</h2>
 
       <form
         className="grid grid-cols-1 md:grid-cols-2 gap-4"
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmitLogin}
       >
         <div>
           <label
@@ -98,7 +123,7 @@ function Login() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <button
           type="button"
-          onClick={handleGoogleLogin2} // Google Auth'u tetikleyen fonksiyonu ekleyin
+          onClick={handleGoogleLogin} // Google Auth'u tetikleyen fonksiyonu ekleyin
           className="flex items-center justify-center w-full h-12 px-4 rounded-md text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         >
           <img src={google} alt="Google icon" className="w-6 h-6 mr-2" />
@@ -106,6 +131,7 @@ function Login() {
         </button>
         <button
           type="button"
+          onClick={handleFacebookLogin}
           className="flex items-center justify-center w-full h-12 px-4 rounded-md text-gray-700 bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
         >
           <img src={facebook} alt="Facebook icon" className="w-6 h-6 mr-2" />

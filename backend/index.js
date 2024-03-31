@@ -1,15 +1,18 @@
-import passport from "passport";
 import express from "express";
 import mysql from "mysql";
 import cors from "cors";
 import bodyParser from "body-parser";
-import { OAuth2Strategy as GoogleStrategy } from "passport-google-oauth";
 import session from "express-session";
 import dotenv from "dotenv";
+import googleAuthRouter from "./googleAuth.js"; // googleAuth.js modülünü import ettik
+import facebookAuthRouter from "./facebookAuth.js"; // Import Facebook authentication router
+
 dotenv.config();
 
 const app = express();
+
 var userProfile;
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   session({
@@ -28,6 +31,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
+app.use(googleAuthRouter); // googleAuth.js router'ını kullanıyoruz
+app.use(facebookAuthRouter);
 
 const connectionDB = mysql.createConnection({
   host: process.env.host,
@@ -49,134 +54,64 @@ app.get("/api/books", (req, res) => {
   });
 });
 
+app.get("/success", (req, res) => res.send(userProfile));
+app.get("/error", (req, res) => res.send("error logging in"));
+
 app.listen(5000, () => {
   console.log("Connected to backend!!");
 });
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.post("/api/login", (req, res) => {
+  const { email, password } = req.body;
+  const sql = "SELECT * FROM users WHERE email = ?";
 
-app.set("view engine", "ejs");
-
-app.get("/success", (req, res) => res.send(userProfile));
-app.get("/error", (req, res) => res.send("error logging in"));
-
-passport.serializeUser(function (user, cb) {
-  cb(null, user);
-});
-
-passport.deserializeUser(function (obj, cb) {
-  cb(null, obj);
-});
-
-const GOOGLE_CLIENT_ID = process.env.CLIENT_ID;
-const GOOGLE_CLIENT_SECRET = process.env.CLIENT_SECRET;
-
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:5000/auth/google/callback",
-    },
-    function (accessToken, refreshToken, profile, done) {
-      userProfile = profile;
-      return done(null, userProfile);
+  connectionDB.query(sql, [email], (err, results) => {
+    if (err) {
+      console.error("Veritabanı sorgusu hatası:", err);
+      return res.status(500).send({ success: false, message: "Sunucu hatası" });
     }
-  )
-);
 
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/error",
-    successRedirect: "/processGoogleLogin",
-  })
-);
-
-app.get("/processGoogleLogin", (req, res) => {
-  if (userProfile) {
-    const { email } = userProfile._json;
-    const displayName = userProfile.displayName;
-
-    const query = `SELECT * FROM users WHERE email = '${email}'`;
-    connectionDB.query(query, (err, results) => {
-      if (err) {
-        console.error("Query error:", err);
-        return res.status(500).send({ error: "Internal Server Error" });
-      }
-
-      if (results.length === 0) {
-        const newUser = {
-          email: email,
-          full_name: displayName,
-          password: "",
-        };
-        connectionDB.query(
-          "INSERT INTO users SET ?",
-          newUser,
-          (insertErr, insertResult) => {
-            if (insertErr) {
-              console.log(insertErr);
-              return res.status(500).send({ error: "Error creating new user" });
-            }
-            return res
-              .status(201)
-              .send({ message: "New user created successfully" });
-          }
-        );
+    if (results.length > 0) {
+      if (password === results[0].password) {
+        // Parolaları karşılaştırma
+        res.send({ success: true, message: "Giriş başarılı" });
+        console.log("başarılı");
       } else {
-        return res.status(200).send({ message: "Login successful" });
+        res.send({ success: false, message: "Hatalı şifre" });
+        console.log("hatalı şifre");
       }
-    });
+    } else {
+      res.send({ success: false, message: "Kullanıcı bulunamadı" });
+    }
+  });
+});
+
+app.post("/api/register", (req, res) => {
+  const { full_name, email, password, confirmPassword } = req.body;
+  console.log(req.body);
+
+  console.log(full_name, email, password, confirmPassword);
+  // Parola doğrulaması
+  if (password !== confirmPassword) {
+    console.log("şifreler eşleşmiyor");
+    return res
+      .status(400)
+      .json({ success: false, message: "Parolalar eşleşmiyor" });
   } else {
-    res.status(500).send("User profile not found");
+    // Kullanıcıyı veritabanına ekleme işlemi
+    const sql =
+      "INSERT INTO users (full_name, email, password) VALUES (?, ?, ?)";
+    connectionDB.query(sql, [full_name, email, password], (err, results) => {
+      if (err) {
+        console.error("Veritabanı sorgusu hatası:", err);
+        return res
+          .status(500)
+          .json({ success: false, message: "Kullanıcı oluşturulamadı" });
+      }
+      console.log("Kullanıcı oluşturuldu:", results);
+      res
+        .status(201)
+        .json({ success: true, message: "Kullanıcı başarıyla oluşturuldu" });
+    });
   }
 });
-
-// app.post("/api/login", (req, res) => {
-//   const { email } = req.body;
-//   const displayName = req.body.displayName;
-
-//   console.log(email, displayName);
-//   const query = `SELECT * FROM users WHERE email = '${email}'`;
-//   connectionDB.query(query, (err, results) => {
-//     if (err) {
-//       console.error("Query error:", err);
-//       return res.status(500).send({ error: "Internal Server Error" });
-//     }
-
-//     if (results.length === 0) {
-//       const newUser = {
-//         email: email,
-//         full_name: displayName,
-//       };
-
-//       console.log(newUser);
-
-//       connectionDB.query(
-//         "INSERT INTO users SET ?",
-//         newUser,
-//         (insertErr, insertResult) => {
-//           if (insertErr) {
-//             console.error("Insert error:", insertErr);
-//             return res.status(500).send({ error: "Error creating new user" });
-//           }
-//           console.log("Insert result:", insertResult);
-//           return res
-//             .status(201)
-//             .send({ message: "New user created successfully" });
-//         }
-//       );
-//     } else {
-//       const userId = results[0].id;
-//       req.session.userId = userId;
-//       return res.status(200).send({ message: "Login successful" });
-//     }
-//   });
-// });

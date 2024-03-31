@@ -1,52 +1,98 @@
+// googleAuth.js
+
 import express from "express";
-import { google } from "googleapis";
+import passport from "passport";
+import { OAuth2Strategy as GoogleStrategy } from "passport-google-oauth";
+import mysql from "mysql";
+import dotenv from "dotenv";
+dotenv.config();
 
 const router = express.Router();
 
-const oauth2Client = new google.auth.OAuth2(
-  client_id,
-  clientSecret,
-  "http://localhost:5000/auth/google/callback",
-  [
-    "https://www.googleapis.com/auth/userinfo.profile",
-    "https://www.googleapis.com/auth/userinfo.email",
-  ]
-);
-
-router.get("/google-auth", (req, res) => {
-  const url = oauth2Client.generateAuthUrl({
-    access_type: "offline",
-    scope: [
-      "https://www.googleapis.com/auth/userinfo.profile",
-      "https://www.googleapis.com/auth/userinfo.email",
-    ],
-  });
-  res.send({ url });
+const connectionDB = mysql.createConnection({
+  host: process.env.host,
+  user: process.env.user,
+  password: process.env.password,
+  database: process.env.database,
 });
 
-router.get("/google/callback", (req, res) => {
-  const { code } = req.query;
+const GOOGLE_CLIENT_ID = process.env.CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.CLIENT_SECRET;
 
-  oauth2Client.getToken(code, (err, tokens) => {
-    if (err) {
-      res.status(400).send({ error: err.message });
-      return;
+passport.serializeUser(function (user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function (obj, cb) {
+  cb(null, obj);
+});
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      callbackURL: "http://localhost:5000/auth/google/callback",
+    },
+    function (accessToken, refreshToken, profile, done) {
+      return done(null, profile);
     }
+  )
+);
 
-    oauth2Client.setCredentials(tokens);
-    const oauth2 = google.oauth2({ version: "v2", auth: oauth2Client });
+router.use(passport.initialize());
+router.use(passport.session());
 
-    oauth2.userinfo.get((err, response) => {
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/error",
+    successRedirect: "/processGoogleLogin",
+  })
+);
+
+router.get("/processGoogleLogin", (req, res) => {
+  if (req.isAuthenticated()) {
+    const { email } = req.user._json;
+    const displayName = req.user.displayName;
+    const query = `SELECT * FROM users WHERE email = '${email}'`;
+    connectionDB.query(query, (err, results) => {
       if (err) {
-        res.status(400).send({ error: err.message });
-        return;
+        console.error("Query error:", err);
+        return res.status(500).send({ error: "Internal Server Error" });
       }
 
-      // ... kullanıcı bilgilerini işleme al ...
-
-      res.send({ user: response.data });
+      if (results.length === 0) {
+        const newUser = {
+          email: email,
+          full_name: displayName,
+          password: "",
+        };
+        connectionDB.query(
+          "INSERT INTO users SET ?",
+          newUser,
+          (insertErr, insertResult) => {
+            if (insertErr) {
+              console.log(insertErr);
+              return res.status(500).send({ error: "Error creating new user" });
+            }
+            return res
+              .status(201)
+              .send({ message: "New user created successfully" });
+          }
+        );
+      } else {
+        return res.status(200).send({ message: "Login successful" });
+      }
     });
-  });
+  } else {
+    res.status(401).send("Unauthorized");
+  }
 });
 
 export default router;
