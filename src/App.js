@@ -7,6 +7,7 @@ import BookDetails from "./components/BookDetails";
 
 import { booksData } from "./api/Api";
 import { authorsData } from "./api/AuthorApi";
+import { usersData } from "./api/Api";
 import {
   createBrowserRouter,
   Outlet,
@@ -19,6 +20,7 @@ import Register from "./pages/Register";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
 
 const Layout = () => {
   return (
@@ -61,6 +63,11 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+        loader: usersData,
       },
     ],
   },

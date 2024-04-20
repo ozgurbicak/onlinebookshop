@@ -54,6 +54,15 @@ app.get("/api/books", (req, res) => {
   });
 });
 
+app.get("/api/users", (req, res) => {
+  connectionDB.query("SELECT * FROM users", (err, data) => {
+    if (err) {
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
 app.get("/success", (req, res) => res.send(userProfile));
 app.get("/error", (req, res) => res.send("error logging in"));
 
@@ -88,9 +97,7 @@ app.post("/api/login", (req, res) => {
 
 app.post("/api/register", (req, res) => {
   const { full_name, email, password, confirmPassword } = req.body;
-  console.log(req.body);
 
-  console.log(full_name, email, password, confirmPassword);
   // Parola doğrulaması
   if (password !== confirmPassword) {
     console.log("şifreler eşleşmiyor");
@@ -98,20 +105,49 @@ app.post("/api/register", (req, res) => {
       .status(400)
       .json({ success: false, message: "Parolalar eşleşmiyor" });
   } else {
-    // Kullanıcıyı veritabanına ekleme işlemi
-    const sql =
-      "INSERT INTO users (full_name, email, password) VALUES (?, ?, ?)";
-    connectionDB.query(sql, [full_name, email, password], (err, results) => {
-      if (err) {
-        console.error("Veritabanı sorgusu hatası:", err);
-        return res
-          .status(500)
-          .json({ success: false, message: "Kullanıcı oluşturulamadı" });
+    // Kullanıcıyı veritabanında kontrol etme
+    const checkUserSql = "SELECT * FROM users WHERE email = ?";
+    connectionDB.query(
+      checkUserSql,
+      [email],
+      (checkUserErr, checkUserResults) => {
+        if (checkUserErr) {
+          console.error("Veritabanı sorgusu hatası:", checkUserErr);
+          return res
+            .status(500)
+            .json({ success: false, message: "Kullanıcı oluşturulamadı" });
+        }
+
+        // Eğer e-posta adresi veritabanında zaten varsa, hata mesajı döndür
+        if (checkUserResults.length > 0) {
+          return res.status(400).json({
+            success: false,
+            message: "Bu e-posta adresi zaten kullanımda",
+          });
+        } else {
+          // Yeni kullanıcıyı veritabanına ekleme işlemi
+          const insertUserSql =
+            "INSERT INTO users (full_name, email, password) VALUES (?, ?, ?)";
+          connectionDB.query(
+            insertUserSql,
+            [full_name, email, password],
+            (insertUserErr, insertUserResults) => {
+              if (insertUserErr) {
+                console.error("Veritabanı sorgusu hatası:", insertUserErr);
+                return res.status(500).json({
+                  success: false,
+                  message: "Kullanıcı oluşturulamadı",
+                });
+              }
+              console.log("Kullanıcı oluşturuldu:", insertUserResults);
+              res.status(201).json({
+                success: true,
+                message: "Kullanıcı başarıyla oluşturuldu",
+              });
+            }
+          );
+        }
       }
-      console.log("Kullanıcı oluşturuldu:", results);
-      res
-        .status(201)
-        .json({ success: true, message: "Kullanıcı başarıyla oluşturuldu" });
-    });
+    );
   }
 });

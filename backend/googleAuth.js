@@ -57,10 +57,14 @@ router.get(
 );
 
 router.get("/processGoogleLogin", (req, res) => {
+  console.log(res);
   if (req.isAuthenticated()) {
     const { email } = req.user._json;
     const displayName = req.user.displayName;
+    const { picture } = req.user._json;
+    console.log(picture);
     const query = `SELECT * FROM users WHERE email = '${email}'`;
+
     connectionDB.query(query, (err, results) => {
       if (err) {
         console.error("Query error:", err);
@@ -72,13 +76,16 @@ router.get("/processGoogleLogin", (req, res) => {
           email: email,
           full_name: displayName,
           password: "",
+          picture: picture,
         };
+
         connectionDB.query(
           "INSERT INTO users SET ?",
           newUser,
           (insertErr, insertResult) => {
             if (insertErr) {
               console.log(insertErr);
+
               return res.status(500).send({ error: "Error creating new user" });
             }
             return res

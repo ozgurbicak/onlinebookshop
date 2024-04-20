@@ -1,13 +1,18 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // useHistory yerine useNavigate import edildi
 import { facebook, google } from "../assets/index"; //
 import axios from "axios"; // axios kütüphanesini ekleyin
+import { useDispatch } from "react-redux";
+import { login } from "../redux/UserSlice"; // userSlice.js dosyanızın yolunu düzenleyin
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [errorMessage, setErrorMessage] = useState(null); // State for error message
+
+  const navigate = useNavigate(); // useNavigate hook'u kullanıldı
+
+  const dispatch = useDispatch();
 
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
@@ -18,9 +23,16 @@ function Login() {
         password,
       });
 
-      if (response.data.success) {
+      const data = JSON.parse(response.config.data);
+
+      console.log(response.config.data);
+      if (data) {
         console.log("Giriş başarılı!");
-        // Handle successful login here (e.g., redirect to dashboard)
+
+        dispatch(login(data));
+
+        // Redirect to home page
+        navigate("/");
       } else {
         setErrorMessage(response.data.message);
         alert(errorMessage);
@@ -32,15 +44,6 @@ function Login() {
       console.error("Hata:", error);
     }
   };
-
-  // const handleGoogleLogin = async () => {
-  //   try {
-  //     const response = await axios.get("http://localhost:5000/auth/google");
-  //     window.open(response.data.url, "_blank");
-  //   } catch (error) {
-  //     console.error("Google Auth Error:", error);
-  //   }
-  // };
 
   function handleGoogleLogin() {
     const width = 600;
@@ -123,7 +126,7 @@ function Login() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <button
           type="button"
-          onClick={handleGoogleLogin} // Google Auth'u tetikleyen fonksiyonu ekleyin
+          onClick={handleGoogleLogin}
           className="flex items-center justify-center w-full h-12 px-4 rounded-md text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         >
           <img src={google} alt="Google icon" className="w-6 h-6 mr-2" />

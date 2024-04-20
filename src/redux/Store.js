@@ -11,17 +11,23 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import bookReducer from "./BookSlice";
-import { getDefaultNormalizer } from "@testing-library/react";
+import userReducer from "./UserSlice"; // Kullanıcı dilimini dahil edin
 
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
 };
-const persistedReducer = persistReducer(persistConfig, bookReducer);
+
+// Persisted reducers
+const persistedBookReducer = persistReducer(persistConfig, bookReducer);
+const persistedUserReducer = persistReducer(persistConfig, userReducer);
 
 export const store = configureStore({
-  reducer: { book: persistedReducer },
+  reducer: {
+    book: persistedBookReducer,
+    user: persistedUserReducer, // Kullanıcı dilimini Redux store'a dahil edin
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
