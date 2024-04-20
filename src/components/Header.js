@@ -1,3 +1,5 @@
+// Header.js
+
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -7,28 +9,36 @@ import { usersData } from "../api/Api";
 function Header() {
   const productData = useSelector((state) => state.book.productData);
   const quantity = productData.length;
-
-  // Kullanıcı giriş yapmış mı kontrolü
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-
-  // Kullanıcı bilgileri state'i
   const [userData, setUserData] = useState(null);
+  const reduxUserEmail = useSelector((state) => state.user.userData.email);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        // Redux'tan giriş yapmış kullanıcının email bilgisini al
+
+        // Kullanıcının emailine göre veritabanından veriyi çek
         const response = await usersData();
-        setUserData(response.data);
+        const matchedUser = response.data.find(
+          (user) => user.email === reduxUserEmail
+        );
+
+        // Eğer eşleşen kullanıcı varsa userData state'ini güncelle
+        if (matchedUser) {
+          setUserData(matchedUser);
+        }
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
 
-    if (isLoggedIn) {
+    // Redux'ta giriş yapmışsa ve userData null ise veritabanından verileri çek
+    if (isLoggedIn && !userData) {
       fetchUserData();
     }
-  }, [isLoggedIn]);
-  console.log(userData);
+  }, [isLoggedIn, userData, reduxUserEmail]);
+
   return (
     <div className="font-title w-full h-20 bg-white border-b-[1px] border-b-gray-900 sticky top-0 z-50">
       <div className="max-w-screen-2xl h-full ml-20 mr-auto flex items-center justify-between">
