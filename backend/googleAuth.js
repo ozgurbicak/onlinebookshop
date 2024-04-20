@@ -88,6 +88,7 @@ router.get("/processGoogleLogin", (req, res) => {
 
               return res.status(500).send({ error: "Error creating new user" });
             }
+
             return res
               .status(201)
               .send({ message: "New user created successfully" });

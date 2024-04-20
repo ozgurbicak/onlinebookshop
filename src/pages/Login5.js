@@ -30,15 +30,11 @@ function Login() {
 
       if (data) {
         console.log("Giriş başarılı!");
-
-        dispatch(login(data));
-
-        // Redirect to home page
+        dispatch(login(response.config.data));
         navigate("/");
       } else {
         setErrorMessage(response.data.message);
-        alert(errorMessage);
-        // Display error message from server
+        alert(response); // Display error message from server
       }
     } catch (error) {
       console.error("Hata:", error);

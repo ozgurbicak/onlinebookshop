@@ -1,16 +1,18 @@
-import axios from "axios";
-import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify"; // react-toastify ekleyin
+import "react-toastify/dist/ReactToastify.css";
+
 function Register() {
   const [full_name, setFull_Name] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
-  const [errorMessage, setErrorMessage] = useState(null); // State for error message
-
-  async function handleSubmit(event) {
-    event.preventDefault(); // Formun otomatik gönderilmesini engeller
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
       const response = await axios.post("http://localhost:5000/api/register", {
         full_name,
@@ -19,17 +21,19 @@ function Register() {
         confirmPassword,
       });
       if (response.data.success) {
-        console.log("Giriş başarılı!");
-        // Başarılı giriş durumunda yapılacak işlemler buraya gelebilir
+        toast.success("Kayıt başarılı!"); // Başarılı kayıt mesajını göster
+        setTimeout(() => {
+          navigate("/login"); // Başarılı kayıt durumunda otomatik olarak login sayfasına yönlendir
+        }, 2000); // 2 saniye sonra yönlendirme yap
       } else {
-        setErrorMessage(response.data.message); // Sunucudan gelen hata mesajını göster
-        alert(errorMessage);
+        toast.error("Kayıt başarısız."); // Kayıt başarısız mesajını göster
       }
     } catch (error) {
-      setErrorMessage("Bir hata oluştu."); // Genel hata mesajı
-      alert(errorMessage);
+      console.error("Hata:", error);
+      toast.error("Lütfen bilgilerinizi kontrol ediniz."); // Genel hata mesajını göster
     }
-  }
+  };
+
   function handleFullName(e) {
     setFull_Name(e.target.value);
   }

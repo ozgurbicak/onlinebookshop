@@ -6,6 +6,7 @@ import { logout } from "../redux/UserSlice";
 
 function Profile() {
   const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true); // Added loading state
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const reduxUserEmail = useSelector((state) => state.user.userData.email);
   const data = useLoaderData();
@@ -15,7 +16,7 @@ function Profile() {
       try {
         const fetchedUserData = data.data;
 
-        // Redux store'daki email ile veritabanından çekilen email'i karşılaştır
+        // Compare email from Redux store with fetched data
         const matchedUser = fetchedUserData.find(
           (user) => user.email === reduxUserEmail
         );
@@ -25,10 +26,12 @@ function Profile() {
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false); // Set loading to false regardless of success or error
       }
     };
 
-    // Redux'ta giriş yapılmışsa ve userData null ise veritabanından verileri çek
+    // Fetch data if logged in and userData is null
     if (isLoggedIn && !userData) {
       fetchData();
     }
@@ -38,6 +41,7 @@ function Profile() {
   function handleLogout() {
     dispatch(logout());
   }
+
   if (!isLoggedIn) {
     return (
       <div className="container mx-auto mt-10 text-center">
@@ -52,32 +56,27 @@ function Profile() {
     );
   }
 
-  if (!userData) {
-    return (
-      <div className="container mx-auto mt-10 text-center">
-        <p>Loading...</p>
-      </div>
-    );
+  // Display loading message while data is being fetched
+  if (loading) {
+    return <div className="text-center">Loading...</div>;
   }
 
+  // Display profile information if data is fetched successfully
   return (
     <div className="container mx-auto mt-10">
       <div>
         <div className="flex items-center">
           <img
             className="w-12 h-12 rounded-full"
-            src={userData.picture || userDefault}
+            src={userData?.picture || userDefault}
             alt="User"
           />
 
           <div className="ml-4">
             <h2 className="text-xl font-semibold text-gray-800">
-              {console.log(userData)}
-              {userData.full_name || "User"}
+              {userData?.full_name || "Full Name"}
             </h2>
-            <p className="text-gray-600">
-              {userData.email || "example@example.com"}
-            </p>
+            <p className="text-gray-600">{userData?.email || "Email"}</p>
           </div>
         </div>
         <div className="mt-6">

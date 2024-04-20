@@ -1,9 +1,7 @@
-// Header.js
-
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { logo, cart, userDefault } from "../assets/index";
+import { logo, cart, userDefault, user } from "../assets/index";
 import { usersData } from "../api/Api";
 
 function Header() {
@@ -16,15 +14,11 @@ function Header() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // Redux'tan giriş yapmış kullanıcının email bilgisini al
-
-        // Kullanıcının emailine göre veritabanından veriyi çek
         const response = await usersData();
         const matchedUser = response.data.find(
           (user) => user.email === reduxUserEmail
         );
 
-        // Eğer eşleşen kullanıcı varsa userData state'ini güncelle
         if (matchedUser) {
           setUserData(matchedUser);
         }
@@ -33,7 +27,6 @@ function Header() {
       }
     };
 
-    // Redux'ta giriş yapmışsa ve userData null ise veritabanından verileri çek
     if (isLoggedIn && !userData) {
       fetchUserData();
     }
@@ -75,20 +68,25 @@ function Header() {
             <Link to="/profile">
               <div className="flex items-center">
                 <img
-                  className="w-9 h-9 rounded-full"
-                  src={userData?.picture || userDefault}
+                  className={`${
+                    userData && userData.picture
+                      ? "w-9 h-9 rounded-full"
+                      : "w-11 h-11 rounded-full"
+                  }`}
+                  src={
+                    userData && userData.picture
+                      ? userData.picture
+                      : userDefault
+                  }
                   alt="user"
                 />
+
                 <span className="ml-2">{userData?.userName}</span>
               </div>
             </Link>
           ) : (
             <Link to="/login">
-              <img
-                className="w-9 h-9 rounded-full"
-                src={userDefault}
-                alt="user"
-              />
+              <img className="w-9 h-9 rounded-full" src={user} alt="user" />
             </Link>
           )}
         </div>
