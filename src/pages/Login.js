@@ -26,14 +26,13 @@ function Login() {
 
       const data = JSON.parse(response.config.data);
 
-      console.log(data);
+      console.log(response);
 
-      if (data) {
+      if (response.data.success) {
         console.log("Giriş başarılı!");
 
         dispatch(login(data));
 
-        // Redirect to home page
         navigate("/");
       } else {
         setErrorMessage(response.data.message);
@@ -76,6 +75,7 @@ function Login() {
       <h2 className="text-3xl font-bold text-gray-800">Sign In</h2>
 
       <form
+        action="http://localhost:5000/api/login/"
         className="grid grid-cols-1 md:grid-cols-2 gap-4"
         onSubmit={handleSubmitLogin}
       >

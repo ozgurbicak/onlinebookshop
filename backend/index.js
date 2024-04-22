@@ -79,7 +79,9 @@ app.post("/api/login", (req, res) => {
       console.error("Veritabanı sorgusu hatası:", err);
       return res.status(500).send({ success: false, message: "Sunucu hatası" });
     }
-
+    console.log("1", results.length);
+    console.log("2", results);
+    console.log("3", results[0]);
     if (results.length > 0) {
       if (password === results[0].password) {
         // Parolaları karşılaştırma
