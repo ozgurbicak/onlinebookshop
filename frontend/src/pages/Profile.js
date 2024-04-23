@@ -40,6 +40,7 @@ function Profile() {
   const dispatch = useDispatch();
   function handleLogout() {
     dispatch(logout());
+    window.location.reload();
   }
 
   if (!isLoggedIn) {

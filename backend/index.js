@@ -1,11 +1,13 @@
+// index.js
+
 import express from "express";
 import mysql from "mysql";
 import cors from "cors";
 import bodyParser from "body-parser";
 import session from "express-session";
 import dotenv from "dotenv";
-import googleAuthRouter from "./googleAuth.js"; // googleAuth.js modülünü import ettik
-import facebookAuthRouter from "./facebookAuth.js"; // Import Facebook authentication router
+import googleAuthRouter from "./googleAuth.js"; // google.js modülünü import ettik
+import facebookAuthRouter from "./facebookAuth.js"; // Facebook authentication router'ını import ettik
 
 dotenv.config();
 
@@ -31,7 +33,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
-app.use(googleAuthRouter); // googleAuth.js router'ını kullanıyoruz
+app.use(googleAuthRouter); // googleAuthRouter'ını kullanıyoruz
 app.use(facebookAuthRouter);
 
 const connectionDB = mysql.createConnection({

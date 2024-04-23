@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../redux/UserSlice";
 import { toast } from "react-toastify"; // react-toastify ekleyin
 import "react-toastify/dist/ReactToastify.css";
+// import GoogleLogin from "react-google-login";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -45,6 +46,26 @@ function Login() {
     }
   };
 
+  // const handleGoogleLogin = (response) => {
+  //   axios
+  //     .post("http://localhost:5000/google", { token: response.tokenId })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //     });
+  // };
+
+  // const handleGoogleLogin = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:5000/auth/google/");
+  //     console.log(response.data); // İsteğin yanıtı hakkında bilgi alabilirsiniz
+  //     // İsteğin yanıtına göre gerekli işlemleri gerçekleştirin
+  //   } catch (error) {
+  //     console.error("Google Auth Error:", error);
+  //     // Hata durumunda uygun şekilde işlem yapabilirsiniz
+  //   }
+  // };
+  // checkGoogleLogin();
+
   const handleGoogleLogin = () => {
     const width = 600;
     const height = 600;
@@ -75,7 +96,6 @@ function Login() {
       <h2 className="text-3xl font-bold text-gray-800">Sign In</h2>
 
       <form
-        action="http://localhost:5000/api/login/"
         className="grid grid-cols-1 md:grid-cols-2 gap-4"
         onSubmit={handleSubmitLogin}
       >
@@ -133,6 +153,14 @@ function Login() {
           <img src={google} alt="Google icon" className="w-6 h-6 mr-2" />
           <span className="text-base font-medium">Sign in with Google</span>
         </button>
+        {/* <h1 onClick={handleGoogleLogin}>homepage</h1>
+        <GoogleLogin
+          clientId={GOOGLE_CLIENT_ID}
+          buttonText="Login"
+          onSuccess={handleGoogleLogin}
+          onFailure={handleGoogleLogin}
+          cookiePolicy={"single_host_origin"}
+        /> */}
         <button
           type="button"
           onClick={handleFacebookLogin}

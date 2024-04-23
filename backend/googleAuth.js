@@ -57,12 +57,11 @@ router.get(
 );
 
 router.get("/processGoogleLogin", (req, res) => {
-  console.log(res);
+  console.log(req);
   if (req.isAuthenticated()) {
     const { email } = req.user._json;
     const displayName = req.user.displayName;
     const { picture } = req.user._json;
-    console.log(picture);
     const query = `SELECT * FROM users WHERE email = '${email}'`;
 
     connectionDB.query(query, (err, results) => {
