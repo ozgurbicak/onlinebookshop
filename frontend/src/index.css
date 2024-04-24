@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.body-font {
+  font-family: "Poppins", sans-serif;
+}
+
+.title-font {
+  font-family: "Nunito Sans", sans-serif;
+}
