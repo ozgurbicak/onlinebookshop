@@ -64,7 +64,6 @@ function Login() {
   //     // Hata durumunda uygun şekilde işlem yapabilirsiniz
   //   }
   // };
-  // checkGoogleLogin();
 
   const handleGoogleLogin = () => {
     const width = 600;
@@ -77,6 +76,19 @@ function Login() {
       "_blank",
       `width=${width}, height=${height}, left=${left}, top=${top}`
     );
+
+    axios
+      .get("http://localhost:5000/successful-logins")
+      .then((response) => {
+        const { email, name, picture } = response.data[0]._json;
+        dispatch(login({ email, full_name: name, picture }));
+
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Error fetching successful logins:", error);
+        // Hata durumunda uygun şekilde işlem yapabilirsiniz
+      });
   };
 
   const handleFacebookLogin = () => {
