@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
-import { OAuth2Client } from "google-auth-library/build/src/auth/oauth2client.js";
+import { OAuth2Client } from "google-auth-library";
 dotenv.config();
 
 const GOOGLE_CLIENT_ID = process.env.CLIENT_ID;
@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 app.post("/google", (req, res) => {
-  console.log(req.body);
+  console.log(res);
   const { token } = req.body;
 
   client

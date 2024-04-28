@@ -64,7 +64,19 @@ function Login() {
   //     // Hata durumunda uygun şekilde işlem yapabilirsiniz
   //   }
   // };
-  // checkGoogleLogin();
+
+  // const handleGoogleLogin = () => {
+  //   const width = 600;
+  //   const height = 600;
+  //   const left = window.innerWidth / 2 - width / 2;
+  //   const top = window.innerHeight / 2 - height / 2;
+
+  //   window.open(
+  //     "http://localhost:5000/auth/google",
+  //     "_blank",
+  //     `width=${width}, height=${height}, left=${left}, top=${top}`
+  //   );
+  // };
 
   const handleGoogleLogin = () => {
     const width = 600;
@@ -77,6 +89,18 @@ function Login() {
       "_blank",
       `width=${width}, height=${height}, left=${left}, top=${top}`
     );
+
+    // Başarılı girişten sonra /success endpoint'ine istek yaparak verilere erişebilirsiniz
+    axios
+      .get("http://localhost:5000/successful-logins")
+      .then((response) => {
+        console.log(response.data);
+        // Başarılı girişlerin listesi olan response.data içindeki verilere erişebilirsiniz
+      })
+      .catch((error) => {
+        console.error("Error fetching successful logins:", error);
+        // Hata durumunda uygun şekilde işlem yapabilirsiniz
+      });
   };
 
   const handleFacebookLogin = () => {
