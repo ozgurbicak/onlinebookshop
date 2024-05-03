@@ -15,10 +15,12 @@
 }
 
 .add-book-name,
-.add-book-description {
+.add-book-description,
+.add-author-name {
   width: max(40%, 280px);
 }
 
+.add-author-name input,
 .add-book-name input,
 .add-book-description textarea {
   padding: 10px;

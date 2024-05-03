@@ -1,14 +1,14 @@
 // index.js
 
 import express from "express";
-import mysql from "mysql";
 import cors from "cors";
 import bodyParser from "body-parser";
 import session from "express-session";
 import dotenv from "dotenv";
 import googleAuthRouter from "./googleAuth.js"; // google.js modülünü import ettik
 import facebookAuthRouter from "./facebookAuth.js"; // Facebook authentication router'ını import ettik
-
+import addRouter from "./admin/add.js";
+import connectionDB from "./db.js";
 dotenv.config();
 
 const app = express();
@@ -25,7 +25,7 @@ app.use(
 );
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: ["http://localhost:3000", "http://localhost:4000"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
@@ -33,15 +33,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
-app.use(googleAuthRouter); // googleAuthRouter'ını kullanıyoruz
+app.use(googleAuthRouter);
 app.use(facebookAuthRouter);
-
-const connectionDB = mysql.createConnection({
-  host: process.env.host,
-  user: process.env.user,
-  password: process.env.password,
-  database: process.env.database,
-});
+app.use(addRouter);
 
 app.get("/", (req, res) => {
   res.json("hello this is the backend");
@@ -67,6 +61,8 @@ app.get("/api/users", (req, res) => {
 
 app.get("/success", (req, res) => res.send(userProfile));
 app.get("/error", (req, res) => res.send("error logging in"));
+
+app.use("/uploads", express.static("uploads"));
 
 app.listen(5000, () => {
   console.log("Connected to backend!!");
