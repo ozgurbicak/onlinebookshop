@@ -1,6 +1,7 @@
 import React from "react";
 import BooksCard from "./BooksCard";
 function Books({ books }) {
+  console.log(books);
   return (
     <div className="py-10">
       <div className="flex flex-col items-center gap-4 ">

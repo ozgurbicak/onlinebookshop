@@ -1,5 +1,4 @@
 import express from "express";
-import mysql from "mysql";
 import dotenv from "dotenv";
 import multer from "multer";
 import connectionDB from "../db.js";

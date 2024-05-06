@@ -7,15 +7,14 @@ function Cart() {
   const productData = useSelector((state) => state.book.productData);
 
   const [totalAmount, setTotalAmount] = useState("");
-
   useEffect(() => {
     let price = 0;
-    productData.map((item) => {
+    productData.forEach((item) => {
       price += item.price * item.quantity;
-      return price.toFixed(2);
     });
     setTotalAmount(price.toFixed(2));
   }, [productData]);
+
   return (
     <div>
       <img className="w-full h-60 object-cover" src={banner} alt="banner"></img>

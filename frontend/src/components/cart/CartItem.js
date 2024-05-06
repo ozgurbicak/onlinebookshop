@@ -49,6 +49,7 @@ function CartItem({ item }) {
               <span className="px-3 py-2 text-lg font-medium bg-white rounded-full border border-gray-300">
                 {item.quantity}
               </span>
+
               <button
                 onClick={() =>
                   dispatch(
@@ -63,7 +64,9 @@ function CartItem({ item }) {
                 +
               </button>
             </div>
-            <p className="text-lg font-medium">${item.quantity * item.price}</p>
+            <p className="text-lg font-medium">
+              ${(item.quantity * item.price).toFixed(2)}
+            </p>
           </div>
         </div>
       </div>

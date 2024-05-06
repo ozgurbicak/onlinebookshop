@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import googleAuthRouter from "./googleAuth.js"; // google.js modülünü import ettik
 import facebookAuthRouter from "./facebookAuth.js"; // Facebook authentication router'ını import ettik
 import addRouter from "./admin/add.js";
+import listRouter from "./admin/list.js";
 import connectionDB from "./db.js";
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use(bodyParser.json());
 app.use(googleAuthRouter);
 app.use(facebookAuthRouter);
 app.use(addRouter);
+app.use(listRouter);
 
 app.get("/", (req, res) => {
   res.json("hello this is the backend");
@@ -44,18 +46,24 @@ app.get("/", (req, res) => {
 app.get("/api/books", (req, res) => {
   connectionDB.query("SELECT * FROM books", (err, data) => {
     if (err) {
-      return res.json(err);
+      console.error("Sorgu hatası:", err);
+      return res
+        .status(500)
+        .json({ error: "Veri çekme sırasında bir hata oluştu." });
     }
-    return res.json(data);
+    return res.json({ success: true, data: data }); // .success alanı eklendi
   });
 });
 
 app.get("/api/users", (req, res) => {
   connectionDB.query("SELECT * FROM users", (err, data) => {
     if (err) {
-      return res.json(err);
+      console.error("Sorgu hatası:", err);
+      return res
+        .status(500)
+        .json({ error: "Veri çekme sırasında bir hata oluştu." });
     }
-    return res.json(data);
+    return res.json({ success: true, data: data }); // .success alanı eklendi
   });
 });
 
@@ -96,7 +104,8 @@ app.post("/api/login", (req, res) => {
 });
 
 app.post("/api/register", (req, res) => {
-  const { full_name, email, password, confirmPassword } = req.body;
+  const { full_name, email, phone_number, password, confirmPassword } =
+    req.body;
 
   // Parola doğrulaması
   if (password !== confirmPassword) {
@@ -127,10 +136,10 @@ app.post("/api/register", (req, res) => {
         } else {
           // Yeni kullanıcıyı veritabanına ekleme işlemi
           const insertUserSql =
-            "INSERT INTO users (full_name, email, password) VALUES (?, ?, ?)";
+            "INSERT INTO users (full_name,email,phone_number, password) VALUES (?, ?, ?,?)";
           connectionDB.query(
             insertUserSql,
-            [full_name, email, password],
+            [full_name, email, phone_number, password],
             (insertUserErr, insertUserResults) => {
               if (insertUserErr) {
                 console.error("Veritabanı sorgusu hatası:", insertUserErr);

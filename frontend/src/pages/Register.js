@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 function Register() {
   const [full_name, setFull_Name] = useState("");
   const [email, setEmail] = useState("");
+  const [phone_number, setPhone_number] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ function Register() {
       const response = await axios.post("http://localhost:5000/api/register", {
         full_name,
         email,
+        phone_number,
         password,
         confirmPassword,
       });
@@ -39,6 +41,13 @@ function Register() {
   }
   function handleEmail(e) {
     setEmail(e.target.value);
+  }
+
+  function handlePhoneNumber(e) {
+    const inputPhoneNumber = e.target.value;
+    if (/^\d*$/.test(inputPhoneNumber)) {
+      setPhone_number(inputPhoneNumber);
+    }
   }
   function handlePassword(e) {
     setPassword(e.target.value);
@@ -85,6 +94,24 @@ function Register() {
               onChange={handleEmail}
               id="email"
               name="email"
+              className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="phone_number"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              pattern="[0-9]*"
+              onChange={handlePhoneNumber}
+              id="phone_number"
+              name="phone_number"
+              title="Please enter only numeric characters."
               className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               required
             />

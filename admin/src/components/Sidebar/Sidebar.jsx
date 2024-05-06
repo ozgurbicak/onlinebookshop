@@ -7,11 +7,15 @@ function Sidebar() {
       <div className="sidebar-options">
         <NavLink to="/add" className="sidebar-option">
           <img src={assets.add_icon} alt="" />
-          <p>Add Books</p>
+          <p>Add Book</p>
         </NavLink>
-        <NavLink to="/list" className="sidebar-option">
+        <NavLink to="/listbook" className="sidebar-option">
           <img src={assets.order_icon} alt="" />
           <p>List Books</p>
+        </NavLink>
+        <NavLink to="/listuser" className="sidebar-option">
+          <img src={assets.order_icon} alt="" />
+          <p>List Users</p>
         </NavLink>
         <NavLink to="/orders" className="sidebar-option">
           <img src={assets.order_icon} alt="" />
