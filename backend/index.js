@@ -9,12 +9,14 @@ import googleAuthRouter from "./googleAuth.js"; // google.js modülünü import 
 import facebookAuthRouter from "./facebookAuth.js"; // Facebook authentication router'ını import ettik
 import addRouter from "./admin/add.js";
 import listRouter from "./admin/list.js";
+import orderRouter from "./admin/order.js";
 import connectionDB from "./db.js";
 dotenv.config();
 
 const app = express();
 
 var userProfile;
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
@@ -38,6 +40,7 @@ app.use(googleAuthRouter);
 app.use(facebookAuthRouter);
 app.use(addRouter);
 app.use(listRouter);
+app.use(orderRouter);
 
 app.get("/", (req, res) => {
   res.json("hello this is the backend");

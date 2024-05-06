@@ -21,7 +21,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
-
+import Payment from "./pages/Payment";
 const Layout = () => {
   return (
     <div>
@@ -68,6 +68,10 @@ const router = createBrowserRouter([
         path: "/profile",
         element: <Profile />,
         loader: usersData,
+      },
+      {
+        path: "/payment",
+        element: <Payment />,
       },
     ],
   },

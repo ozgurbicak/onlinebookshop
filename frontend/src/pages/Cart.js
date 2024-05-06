@@ -2,10 +2,13 @@ import { useSelector } from "react-redux";
 import { banner } from "../assets/index";
 import Carts from "../components/cart/Carts";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Cart() {
   const productData = useSelector((state) => state.book.productData);
-
+  console.log(productData);
+  const navigate = useNavigate();
   const [totalAmount, setTotalAmount] = useState("");
   useEffect(() => {
     let price = 0;
@@ -14,6 +17,14 @@ function Cart() {
     });
     setTotalAmount(price.toFixed(2));
   }, [productData]);
+
+  function handlePayment() {
+    if (productData.length > 0) {
+      navigate("/payment");
+    } else {
+      toast.error("Please add product to cart");
+    }
+  }
 
   return (
     <div>
@@ -41,8 +52,11 @@ function Cart() {
           <p className="font-title font-semibold flex justify-between mt-6">
             Total<span className="text-xl font-bold">${totalAmount}</span>
           </p>
-          <button className="text-base bg-black text-white w-full py-3 mt-6 hover:bg-gray-800 duration-300">
-            proceed to checkout
+          <button
+            onClick={handlePayment}
+            className="text-base bg-black text-white w-full py-3 mt-6 hover:bg-gray-800 duration-300"
+          >
+            Proceed to payment
           </button>
         </div>
       </div>
