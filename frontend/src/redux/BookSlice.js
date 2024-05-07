@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { toast } from "react-toastify";
 const initialState = {
   productData: [],
   userInfo: null,
@@ -22,7 +22,9 @@ export const BookSlice = createSlice({
           console.log(existingItem.quantity);
         } else {
           console.log(
-            "You can only have a maximum of 10 of the same book in your cart"
+            toast.error(
+              "You can only have a maximum of 10 of the same book in your cart"
+            )
           );
         }
       } else {

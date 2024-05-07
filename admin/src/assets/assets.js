@@ -5,6 +5,7 @@ import profile_image from "./profile_image.png";
 import upload_area from "./upload_area.png";
 import parcel_icon from "./parcel_icon.png";
 import users from "./users2.jpg";
+import userDefault from "./userDefault.png";
 export const assets = {
   logo,
   add_icon,
@@ -13,4 +14,5 @@ export const assets = {
   upload_area,
   parcel_icon,
   users,
+  userDefault,
 };

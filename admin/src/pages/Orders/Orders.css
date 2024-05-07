@@ -1,0 +1,39 @@
+.orders-table-format {
+  display: grid;
+  grid-template-columns: 0.6fr 0.8fr 0.7fr 0.6fr 0.5fr 0.5fr;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  border: 1px solid #cacaca;
+  font-size: 13px;
+}
+
+.orders-table-format.title {
+  background-color: #f9f9f9;
+}
+.book {
+  width: 50px;
+}
+
+.profilepic {
+  width: 30px;
+}
+
+.orders {
+  width: 70%;
+  margin-left: max(5vw, 25px);
+  margin-top: 50px;
+  color: #6d6d6d;
+  font-size: 16px;
+  gap: 20px;
+}
+
+@media (max-width: 600px) {
+  .orders-table-format {
+    grid-template-columns: 1f1 3f4 1f1;
+    gap: 15px;
+  }
+  .orders-table-format.title {
+    display: none;
+  }
+}

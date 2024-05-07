@@ -17,6 +17,7 @@ function BookDetails() {
     setDetails(location.state.item);
   }, [location]);
 
+  console.log(details);
   function handleButtonPlus() {
     setQuantity(quantity < 10 ? quantity + 1 : quantity);
   }

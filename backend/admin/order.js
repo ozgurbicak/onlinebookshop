@@ -8,8 +8,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const currentDate = new Date().toISOString().slice(0, 19).replace("T", " ");
+
 app.post("/api/order", (req, res) => {
-  console.log(req.body);
+  console.log(req);
   const {
     full_name,
     email,
@@ -51,4 +52,40 @@ app.post("/api/order", (req, res) => {
   }
 });
 
+app.get("/api/orders", (req, res) => {
+  connectionDB.query("SELECT * FROM orders", (err, result) => {
+    if (err) {
+      res.status.apply(500).send("Internal Server Error");
+    } else {
+      console.log("başarılı");
+      res.json({ success: true, data: result });
+    }
+  });
+});
+
+app.post("/api/remove/order", (req, res) => {
+  console.log(req);
+  const id = req.body.id;
+  connectionDB.query("DELETE FROM orders WHERE id = ?", [id], (err, result) => {
+    if (err) {
+      console.error("Query error:", err);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while deleting the order." });
+    }
+    console.log("Order successfully deleted.");
+    return res.json({
+      success: true,
+      message: "Order successfully removed.",
+    });
+  });
+});
 export default app;
+
+{
+  /* <td>
+                {JSON.parse(order.products_data)
+                  .map((product) => product.book_name)
+                  .join(", ")}
+              </td> */
+}

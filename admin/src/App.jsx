@@ -4,6 +4,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import { Routes, Route } from "react-router-dom";
 import Add from "./pages/Add/Add";
 import Orders from "./pages/Orders/Orders";
+import OrderDetails from "./pages/Orders/OrderDetails";
 import ListBook from "./pages/List/ListBook";
 import ListUser from "./pages/List/ListUser";
 import { ToastContainer } from "react-toastify";
@@ -20,6 +21,7 @@ function App() {
           <Route path="/listbook" element={<ListBook />} />
           <Route path="/listuser" element={<ListUser />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/orderdetails/:id" element={<OrderDetails />} />
         </Routes>
         <ToastContainer
           position="top-left"

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./List.css";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import { assets } from "../../assets/assets";
 function List() {
   const [users, setUsers] = useState([]);
 
@@ -22,8 +22,8 @@ function List() {
     const response = await axios.post("http://localhost:5000/api/remove/user", {
       id: userId,
     });
-    await usersData();
     if (response.data.success) {
+      await usersData();
       toast.success(response.data.message);
     } else {
       toast.error("Error");
@@ -51,7 +51,11 @@ function List() {
               <p>{user.email}</p>
               <p>{user.full_name}</p>
               <p>{user.phone_number}</p>
-              <img className="profilepic" src={user.picture} alt="" />
+              {user.picture ? (
+                <img className="profilepic" src={user.picture} alt="" />
+              ) : (
+                <img className="profilepic" src={assets.userDefault} alt="" />
+              )}
               <p onClick={() => removeUser(user.id)} className="cursor">
                 X
               </p>

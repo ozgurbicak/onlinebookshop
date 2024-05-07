@@ -41,13 +41,6 @@ function Cart() {
                 ${totalAmount}
               </span>
             </p>
-            <p className="flex items-start gap-4 text-base">
-              Shipping{" "}
-              <span>
-                Lorem,ipsum dolar, sit amet consectetur adipsicing elit . Quos,
-                veritatis.
-              </span>
-            </p>
           </div>
           <p className="font-title font-semibold flex justify-between mt-6">
             Total<span className="text-xl font-bold">${totalAmount}</span>

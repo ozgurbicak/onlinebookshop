@@ -21,8 +21,8 @@ function List() {
     const response = await axios.post("http://localhost:5000/api/remove/book", {
       id: bookId,
     });
-    await booksData();
     if (response.data.success) {
+      await booksData();
       toast.success(response.data.message);
     } else {
       toast.error("Error");
@@ -38,12 +38,12 @@ function List() {
       <p>All Foods List</p>
       <div className="list-table">
         <div className="list-table-format title">
-          <b>Image</b>
-          <b>Book Name</b>
-          <b>Author Name</b>
-          <b>Category</b>
-          <b>Price</b>
-          <b>Action</b>
+          <h3>Image</h3>
+          <h3>Book Name</h3>
+          <h3>Author Name</h3>
+          <h3>Category</h3>
+          <h3>Price</h3>
+          <h3>Action</h3>
         </div>
         {list.map((item, index) => {
           return (

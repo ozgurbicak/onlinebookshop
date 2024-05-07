@@ -12,8 +12,20 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
+  const handlePhoneChange = (event) => {
+    const formattedPhoneNumber = event.target.value
+      .replace(/\D/g, "")
+      .slice(0, 10);
+    setPhone_number(formattedPhoneNumber);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log(phone_number);
+    if (phone_number.length !== 10) {
+      toast.error("Phone number must be 10 digits long.");
+      return;
+    }
     try {
       const response = await axios.post("http://localhost:5000/api/register", {
         full_name,
@@ -43,12 +55,6 @@ function Register() {
     setEmail(e.target.value);
   }
 
-  function handlePhoneNumber(e) {
-    const inputPhoneNumber = e.target.value;
-    if (/^\d*$/.test(inputPhoneNumber)) {
-      setPhone_number(inputPhoneNumber);
-    }
-  }
   function handlePassword(e) {
     setPassword(e.target.value);
   }
@@ -107,13 +113,13 @@ function Register() {
             </label>
             <input
               type="tel"
-              pattern="[0-9]*"
-              onChange={handlePhoneNumber}
-              id="phone_number"
-              name="phone_number"
+              required
+              id="phoneNumber"
+              name="phoneNumber"
+              value={phone_number}
+              onChange={handlePhoneChange}
               title="Please enter only numeric characters."
               className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              required
             />
           </div>
           <div className="mb-6">
