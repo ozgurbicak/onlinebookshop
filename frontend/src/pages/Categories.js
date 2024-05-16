@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import BooksCard from "../components/BooksCard";
 
-function Authors() {
+function Categories() {
   const [bookData, setBookData] = useState([]);
-  const [authors, setAuthors] = useState([]);
-  const [selectedAuthor, setSelectedAuthor] = useState("All Books");
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All Books");
 
   const data = useLoaderData();
 
@@ -13,38 +13,47 @@ function Authors() {
     if (data && data.data) {
       setBookData(data.data);
 
-      // Tüm yazarları toplayıp benzersiz hale getirelim ve boş olanları filtreleyelim
-      const allAuthors = data.data
-        .map((book) => book.author_name)
-        .filter((author) => author !== "");
-      setAuthors(["All Books", ...new Set(allAuthors)]);
+      // Tüm kategorileri toplayıp benzersiz hale getirelim ve boş olanları filtreleyelim
+      const allCategories = data.data.reduce((acc, book) => {
+        const bookCategories = book.category
+          .split(",")
+          .map((cat) => cat.trim())
+          .filter((cat) => cat !== "");
+        return [...acc, ...bookCategories];
+      }, []);
+      setCategories(["All Books", ...new Set(allCategories)]);
     }
   }, [data]);
 
   const filteredBooks =
-    selectedAuthor && selectedAuthor !== "All Books"
-      ? bookData.filter((book) => book.author_name === selectedAuthor)
+    selectedCategory && selectedCategory !== "All Books"
+      ? bookData.filter((book) =>
+          book.category
+            .split(",")
+            .map((cat) => cat.trim())
+            .includes(selectedCategory)
+        )
       : bookData;
 
   return (
     <div className="py-10">
       <div className="flex flex-col items-center gap-4">
         <h1 className="text-2xl bg-black text-white py-2 w-80 text-center">
-          Authors
+          Categories
         </h1>
         <span className="w-24 h-[3px] bg-black"></span>
         <ul className="flex flex-wrap justify-center gap-2">
-          {authors.map((author, index) => (
+          {categories.map((category, index) => (
             <li
               key={index}
-              onClick={() => setSelectedAuthor(author)}
+              onClick={() => setSelectedCategory(category)}
               className={`cursor-pointer px-4 py-2 border ${
-                selectedAuthor === author
+                selectedCategory === category
                   ? "bg-black text-white"
                   : "bg-white text-black"
               }`}
             >
-              {author}
+              {category}
             </li>
           ))}
         </ul>
@@ -53,8 +62,8 @@ function Authors() {
       <div className="py-10">
         <div className="flex flex-col items-center gap-4">
           <h1 className="text-2xl bg-black text-white py-2 w-80 text-center">
-            {selectedAuthor && selectedAuthor !== "All Books"
-              ? `${selectedAuthor}'s Books`
+            {selectedCategory && selectedCategory !== "All Books"
+              ? `${selectedCategory} Books`
               : "All Books"}
           </h1>
           <span className="w-24 h-[3px] bg-black"></span>
@@ -66,7 +75,7 @@ function Authors() {
               <BooksCard key={book.id} bookData={book} />
             ))
           ) : (
-            <p>Please select an author to view books.</p>
+            <p>Please select a category to view books.</p>
           )}
         </div>
       </div>
@@ -74,4 +83,4 @@ function Authors() {
   );
 }
 
-export default Authors;
+export default Categories;

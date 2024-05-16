@@ -35,7 +35,7 @@ function List() {
 
   return (
     <div className="list add flex-col">
-      <p>All Foods List</p>
+      <p>All Books List</p>
       <div className="list-table">
         <div className="list-table-format title">
           <h3>Image</h3>

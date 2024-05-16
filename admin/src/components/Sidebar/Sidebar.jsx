@@ -5,9 +5,13 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebar-options">
-        <NavLink to="/add" className="sidebar-option">
+        <NavLink to="/addbook" className="sidebar-option">
           <img src={assets.add_icon} alt="" />
           <p>Add Book</p>
+        </NavLink>
+        <NavLink to="/adduser" className="sidebar-option">
+          <img src={assets.add_icon} alt="" />
+          <p>Add User</p>
         </NavLink>
         <NavLink to="/listbook" className="sidebar-option">
           <img src={assets.order_icon} alt="" />

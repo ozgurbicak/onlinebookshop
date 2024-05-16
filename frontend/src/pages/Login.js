@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import { login } from "../redux/UserSlice";
 import { toast } from "react-toastify"; // react-toastify ekleyin
 import "react-toastify/dist/ReactToastify.css";
-// import GoogleLogin from "react-google-login";
 
 function Login() {
   const [email, setEmail] = useState("");

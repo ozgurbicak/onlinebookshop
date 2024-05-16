@@ -6,7 +6,6 @@ import Cart from "./pages/Cart";
 import BookDetails from "./components/BookDetails";
 
 import { booksData } from "./api/Api";
-import { authorsData } from "./api/AuthorApi";
 import { usersData } from "./api/Api";
 import {
   createBrowserRouter,
@@ -22,6 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Payment from "./pages/Payment";
+import Categories from "./pages/Categories";
 const Layout = () => {
   return (
     <div>
@@ -54,7 +54,7 @@ const router = createBrowserRouter([
       {
         path: "/authors",
         element: <Authors />,
-        loader: authorsData,
+        loader: booksData,
       },
       {
         path: "/register",
@@ -72,6 +72,11 @@ const router = createBrowserRouter([
       {
         path: "/payment",
         element: <Payment />,
+      },
+      {
+        path: "/categories",
+        element: <Categories />,
+        loader: booksData,
       },
     ],
   },

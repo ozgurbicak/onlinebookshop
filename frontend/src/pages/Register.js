@@ -21,7 +21,6 @@ function Register() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(phone_number);
     if (phone_number.length !== 10) {
       toast.error("Phone number must be 10 digits long.");
       return;

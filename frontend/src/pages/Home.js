@@ -8,6 +8,7 @@ function Home() {
 
   const data = useLoaderData();
 
+  console.log(data);
   useEffect(() => {
     setBookData(data.data);
   }, [data]);

@@ -43,16 +43,13 @@ function Header() {
         <div className="flex gap-9 items-center">
           <ul className="flex gap-9 items-center">
             <li className="text-base text-blue-950 font-bold hover:text-orange-700 hover:underline underline-offset-2 decoration-[1px] cursor-pointer duration-300">
-              Home
+              <Link to="/"> Home</Link>
             </li>
             <li className="text-base text-blue-950 font-bold hover:text-orange-700 hover:underline underline-offset-2 decoration-[1px] cursor-pointer duration-300">
-              Categories
+              <Link to="categories">Categories</Link>
             </li>
             <li className="text-base text-blue-950 font-bold hover:text-orange-700 hover:underline underline-offset-2 decoration-[1px] cursor-pointer duration-300">
-              Authors
-            </li>
-            <li className="text-base text-blue-950 font-bold hover:text-orange-700 hover:underline underline-offset-2 decoration-[1px] cursor-pointer duration-300">
-              Publishers
+              <Link to="/authors">Authors</Link>
             </li>
           </ul>
           <Link to="/cart">

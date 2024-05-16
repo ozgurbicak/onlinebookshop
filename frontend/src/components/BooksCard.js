@@ -24,7 +24,7 @@ function BooksCard({ bookData }) {
   const productData = useSelector((state) => state.book.productData);
 
   function handleAddToCart() {
-    if (isAddingToCart) return; // Do nothing if already adding to cart
+    if (isAddingToCart) return;
     setIsAddingToCart(true);
 
     const existingItem = productData.find((item) => item.id === bookData.id);
@@ -32,6 +32,9 @@ function BooksCard({ bookData }) {
       toast.error(
         `You can only have a maximum of 10 of the same book in your cart`
       );
+      setIsAddingToCart(false);
+    } else if (bookData.stock <= 0) {
+      toast.error(`This book is out of stock`);
       setIsAddingToCart(false);
     } else {
       dispatch(
@@ -51,20 +54,34 @@ function BooksCard({ bookData }) {
         </span>
       );
 
-      setTimeout(() => setIsAddingToCart(false), 1000); // Enable button after 1 second
+      setTimeout(() => setIsAddingToCart(false), 1000);
     }
   }
 
   return (
     <div className="group relative">
-      <div onClick={handleBook} className="cursor-pointer overflow-hidden">
+      <div
+        onClick={handleBook}
+        className={`cursor-pointer overflow-hidden relative ${
+          bookData.stock <= 0 ? "pointer-events-none" : ""
+        }`}
+      >
         <img
-          className="w-full h-auto max-w-[300px] max-h-[300px] object-contain object-center group-hover:scale-105 duration-500"
+          className={`w-full h-100 object-cover object-center group-hover:scale-105 duration-500 ${
+            bookData.stock <= 0 ? "opacity-50 grayscale" : ""
+          }`}
           src={bookData.image}
           alt="bookImage"
         />
+        {bookData.stock <= 0 && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="text-2xl font-bold text-red-600 bg-white p-2 rounded">
+              Sold Out
+            </span>
+          </div>
+        )}
       </div>
-      <div className=" p-4">
+      <div className="p-4">
         <h2 className="text-lg font-semibold mb-2 text-center">
           {bookData.book_name}
         </h2>
@@ -77,11 +94,17 @@ function BooksCard({ bookData }) {
             className={`bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition-colors duration-300 ${
               isAddingToCart && "opacity-50 cursor-not-allowed"
             }`}
-            disabled={isAddingToCart}
+            disabled={isAddingToCart || bookData.stock <= 0}
           >
-            Add to Cart
+            {bookData.stock > 0 ? "Add to Cart" : "Sold Out"}
           </button>
         </div>
+
+        {bookData.stock < 10 && bookData.stock > 0 && (
+          <p className="text-red-500 text-center">
+            Only {bookData.stock} left in stock!
+          </p>
+        )}
       </div>
     </div>
   );

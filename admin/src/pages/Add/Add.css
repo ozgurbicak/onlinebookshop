@@ -45,3 +45,68 @@
   color: white;
   cursor: pointer;
 }
+.add-user {
+  width: 70%;
+  margin: 50px auto;
+  color: #333;
+  font-size: 16px;
+}
+
+.add-user form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.add-user input,
+.add-user button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-user input[type="text"],
+.add-user input[type="email"],
+.add-user input[type="password"],
+.add-user input[type="file"],
+.add-user input[type="tel"],
+.add-user textarea {
+  width: calc(
+    50% - 22px
+  ); /* Tüm input alanlarının genişliği 100% olsun, ancak kenar boşluğunu hesaba kat */
+}
+
+.add-user input[type="file"] {
+  background-color: #f8f8f8;
+}
+
+.add-user button {
+  max-width: 120px;
+  margin-top: 10px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-user button:hover {
+  background-color: #333;
+}
+
+.add-user input::placeholder,
+.add-user textarea::placeholder {
+  color: #999;
+}
+
+.add-user input[type="file"]::file-selector-button {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px 10px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+.add-user input[type="file"]::file-selector-button:hover {
+  background-color: #333;
+}

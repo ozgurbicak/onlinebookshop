@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import "./Add.css";
 import { assets } from "../../assets/assets";
 import axios from "axios";
-
 import { toast } from "react-toastify";
 
-function Add() {
+function AddBook() {
   const [image, setImage] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("Romance");
   const [price, setPrice] = useState("");
   const [author, setAuthor] = useState("");
+  const [stock, setStock] = useState(""); // Yeni durum
 
   function handleName(e) {
     setName(e.target.value);
@@ -29,6 +29,10 @@ function Add() {
   function handleAuthor(e) {
     setAuthor(e.target.value);
   }
+  function handleStock(e) {
+    setStock(e.target.value); // Stok durumunu güncellemek için
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -39,57 +43,64 @@ function Add() {
     formData.append("description", description);
     formData.append("category", category);
     formData.append("price", Number(price));
+    formData.append("stock", Number(stock));
 
-    if (name && image && description && category && price) {
-      try {
-        const response = await axios.post(
-          "http://localhost:5000/api/add",
-          formData
-        );
+    if (!image || !name || !description || !category || !price || !stock) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
 
-        if (response.data.success) {
-          toast.success("Book added successfully!");
-          setImage(false);
-          setName("");
-          setAuthor("");
-          setCategory("Romance");
-          setDescription("");
-          setPrice("");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
-        } else {
-          toast.error("Failed to add book.");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        toast.error("An error occurred. Please try again.");
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/addbook",
+        formData
+      );
+
+      if (response.data.success) {
+        toast.success("Book added successfully!");
+        setImage(false);
+        setName("");
+        setAuthor("");
+        setCategory("Romance");
+        setDescription("");
+        setPrice("");
+        setStock("");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      } else {
+        toast.error("Failed to add book.");
       }
-    } else {
-      toast("Enter required Fields");
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error(error.message);
     }
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (name && image && description && category && price) {
-  //     const fetchData = await fetch(`http://localhost:5000/api/add`, {
-  //       method: "POST",
-  //       headers: {
-  //         "content-type": "application/json",
-  //       },
-  //       body: JSON.stringify(name, image, description, category, price),
-  //     });
-
-  //     const fetchRes = await fetchData.json();
-
-  //     console.log(fetchRes);
-  //     toast(fetchRes.message);
-  //   } else {
-  //     toast("Enter required Fields");
-  //   }
-  // };
+  const additionalCategories = [
+    "thriller",
+    "science-fiction",
+    "techno-thriller",
+    "political-thriller",
+    "novel",
+    "drama",
+    "fantasy",
+    "adventure",
+    "fiction",
+    "leterature",
+    "general-fiction",
+    "romantic",
+    "tragicomedy",
+    "mystery",
+    "contemporary-fiction",
+    "humor",
+    "war",
+    "historical-fiction",
+    "suspense",
+    "domestic-fiction",
+    "LGBTQ+Fiction",
+    "comedy",
+  ];
 
   return (
     <div className="add">
@@ -102,12 +113,10 @@ function Add() {
               alt=""
             />
           </label>
-
           <input
             onChange={(e) => setImage(e.target.files[0])}
             type="file"
             id="image"
-            hidden
             required
           />
         </div>
@@ -152,13 +161,16 @@ function Add() {
             <p>Book Category</p>
             <select onChange={handleCategory} name="category" value={category}>
               <option value="Romance">Romance</option>
-              <option value="Comedy">Comedy</option>
-              <option value="Mystery">Mystery</option>
-              <option value="Thriller">Thriller</option>
-              <option value="Adventure">Adventure</option>
               <option value="Fantasy">Fantasy</option>
               <option value="Fiction">Fiction</option>
-              <option value="Family-Saga">Family-Saga</option>
+              <option value="Mystery">Mystery</option>
+              <option value="Comedy">Comedy</option>
+              {/* Diğer kategorileri buraya ekleyin */}
+              {additionalCategories.map((cat, index) => (
+                <option key={index} value={cat}>
+                  {cat}
+                </option>
+              ))}
             </select>
           </div>
           <div className="add-price flex-col">
@@ -171,6 +183,18 @@ function Add() {
               placeholder="$"
             />
           </div>
+          <div className="add-stock flex-col">
+            {" "}
+            {/* Yeni stok alanı */}
+            <p>Stock</p>
+            <input
+              onChange={handleStock}
+              value={stock}
+              type="Number"
+              name="stock"
+              placeholder="Stock"
+            />
+          </div>
         </div>
         <button type="submit" className="add-btn">
           ADD
@@ -180,4 +204,4 @@ function Add() {
   );
 }
 
-export default Add;
+export default AddBook;

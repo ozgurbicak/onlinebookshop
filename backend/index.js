@@ -86,14 +86,13 @@ app.post("/api/login", (req, res) => {
   connectionDB.query(sql, [email], (err, results) => {
     if (err) {
       console.error("Veritabanı sorgusu hatası:", err);
-      return res.status(500).send({ success: false, message: "Sunucu hatası" });
+      return res
+        .status(500)
+        .send({ success: false, message: "veritabanı sorgu hatası" });
     }
-    console.log("1", results.length);
-    console.log("2", results);
-    console.log("3", results[0]);
+
     if (results.length > 0) {
       if (password === results[0].password) {
-        // Parolaları karşılaştırma
         res.send({ success: true, message: "Giriş başarılı" });
         console.log("başarılı");
       } else {
@@ -137,7 +136,7 @@ app.post("/api/register", (req, res) => {
             message: "Bu e-posta adresi zaten kullanımda",
           });
         } else {
-          // Yeni kullanıcıyı veritabanına ekleme işlemi
+          // add new user
           const insertUserSql =
             "INSERT INTO users (full_name,email,phone_number, password) VALUES (?, ?, ?,?)";
           connectionDB.query(

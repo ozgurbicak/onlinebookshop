@@ -6,11 +6,24 @@
   padding: 12px 15px;
   border: 1px solid #cacaca;
   font-size: 13px;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Renk değişimine geçiş efekti eklendi */
+  cursor: pointer; /* İmleci göster */
+}
+
+.orders-table-format:hover {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.05
+  ); /* Üzerine gelindiğinde arka plan rengini değiştirin */
+  color: #333; /* Yazı rengini değiştirin */
 }
 
 .orders-table-format.title {
   background-color: #f9f9f9;
 }
+
 .book {
   width: 50px;
 }
