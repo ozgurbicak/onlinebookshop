@@ -23,7 +23,7 @@ function BookDetails() {
   }
 
   function handleButtonMinus() {
-    setQuantity(quantity > 0 ? quantity - 1 : quantity);
+    setQuantity(quantity > 1 ? quantity - 1 : quantity);
   }
 
   function handleSetRating(rating) {
@@ -32,10 +32,18 @@ function BookDetails() {
 
   function handleAddToCart() {
     const existingItem = productData.find((item) => item.id === details.id);
-    if (existingItem && existingItem.quantity >= 10) {
+    const existingQuantity = existingItem ? existingItem.quantity : 0;
+
+    if (existingItem && existingQuantity >= 10) {
       toast.error(
         `You can only have a maximum of 10 of the same book in your cart`
       );
+    } else if (existingQuantity + quantity > details.stock) {
+      toast.error(
+        `You cannot add more than ${details.stock} of this book to your cart`
+      );
+    } else if (details.stock <= 0) {
+      toast.error(`This book is out of stock`);
     } else {
       dispatch(
         addToCart({

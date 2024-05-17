@@ -34,16 +34,16 @@ function Register() {
         confirmPassword,
       });
       if (response.data.success) {
-        toast.success("Kayıt başarılı!"); // Başarılı kayıt mesajını göster
+        toast.success("Registration Successful!");
         setTimeout(() => {
-          navigate("/login"); // Başarılı kayıt durumunda otomatik olarak login sayfasına yönlendir
-        }, 2000); // 2 saniye sonra yönlendirme yap
+          navigate("/login");
+        }, 2000);
       } else {
-        toast.error("Kayıt başarısız."); // Kayıt başarısız mesajını göster
+        toast.error("Registration failed!");
       }
     } catch (error) {
       console.error("Hata:", error);
-      toast.error("Lütfen bilgilerinizi kontrol ediniz."); // Genel hata mesajını göster
+      toast.error("Please check your information");
     }
   };
 

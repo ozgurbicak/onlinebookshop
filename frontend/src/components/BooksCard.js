@@ -28,10 +28,15 @@ function BooksCard({ bookData }) {
     setIsAddingToCart(true);
 
     const existingItem = productData.find((item) => item.id === bookData.id);
-    if (existingItem && existingItem.quantity >= 10) {
+    const existingQuantity = existingItem ? existingItem.quantity : 0;
+
+    if (existingItem && existingQuantity >= 10) {
       toast.error(
         `You can only have a maximum of 10 of the same book in your cart`
       );
+      setIsAddingToCart(false);
+    } else if (existingQuantity + 1 > bookData.stock) {
+      toast.error(`You cannot add more than ${bookData.stock} of this book`);
       setIsAddingToCart(false);
     } else if (bookData.stock <= 0) {
       toast.error(`This book is out of stock`);

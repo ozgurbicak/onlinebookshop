@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoggedIn: false,
-  userData: {}, // Boş bir obje olarak başlatın
+  userData: {},
 };
 
 export const userSlice = createSlice({
@@ -15,7 +15,7 @@ export const userSlice = createSlice({
     },
     logout: (state) => {
       state.isLoggedIn = false;
-      state.userData = {}; // Boş bir obje olarak ayarlayın
+      state.userData = {};
     },
     updateUser: (state, action) => {
       state.userData = action.payload;

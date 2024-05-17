@@ -1,0 +1,106 @@
+.list-table-format {
+  display: grid;
+  grid-template-columns: 0.5fr 0.7fr 0.7fr 0.8fr 0.5fr 0.5fr 0.7fr;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  border: 1px solid #cacaca;
+  font-size: 13px;
+}
+
+.list-table-format.title {
+  background-color: #f9f9f9;
+}
+.book {
+  width: 50px;
+}
+.profilepic {
+  width: 30px;
+}
+
+@media (max-width: 600px) {
+  .list-table-format {
+    grid-template-columns: 1f1 3f4 1f1;
+    gap: 15px;
+  }
+  .list-table-format.title {
+    display: none;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 100%;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-content form label {
+  margin-bottom: 10px;
+}
+
+.modal-content form input {
+  padding: 8px;
+  margin-top: 5px;
+}
+
+.modal-content form button {
+  padding: 10px;
+  margin-top: 10px;
+}
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+  margin: 5px;
+  justify-content: space-between;
+}
+
+.actions button {
+  background-color: transparent;
+  color: #6f6f6f;
+  border: 2px solid #5d5c5c;
+  padding: 8px 16px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.actions button:hover {
+  background-color: #333;
+  color: #fff;
+  cursor: pointer;
+}
+
+.actions p.cursor {
+  cursor: pointer;
+  font-size: 14px;
+  color: black;
+}
+
+.actions p.cursor:hover {
+  color: #380404;
+  font-size: 16px;
+}

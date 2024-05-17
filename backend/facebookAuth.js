@@ -69,7 +69,7 @@ router.get("/processFacebookLogin", (req, res) => {
         const newUser = {
           facebook_id: id,
           full_name: displayName,
-          password: "", // Consider using a secure password hashing strategy
+          password: "",
         };
         connectionDB.query(
           "INSERT INTO users SET ?",

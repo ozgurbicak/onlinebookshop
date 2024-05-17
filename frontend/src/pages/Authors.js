@@ -13,7 +13,6 @@ function Authors() {
     if (data && data.data) {
       setBookData(data.data);
 
-      // Tüm yazarları toplayıp benzersiz hale getirelim ve boş olanları filtreleyelim
       const allAuthors = data.data
         .map((book) => book.author_name)
         .filter((author) => author !== "");

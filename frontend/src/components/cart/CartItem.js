@@ -3,12 +3,27 @@ import { MdOutlineClose } from "react-icons/md";
 import {
   decrementQuantity,
   deleteItem,
-  increamentQuantity,
+  incrementQuantity,
 } from "../../redux/BookSlice";
-import { toast } from "react-toastify"; // Import toast for deletion confirmation
+import { toast } from "react-toastify";
 
 function CartItem({ item }) {
   const dispatch = useDispatch();
+
+  function handleIncrementQuantity() {
+    if (item.quantity < item.stock) {
+      dispatch(incrementQuantity({ id: item.id }));
+    } else {
+      toast.error(
+        `You cannot add more than ${item.stock} of this book to your cart`
+      );
+    }
+  }
+
+  function handleDecrementQuantity() {
+    dispatch(decrementQuantity({ id: item.id }));
+  }
+
   return (
     <div>
       <div key={item.id} className="rounded-lg shadow-md bg-white">
@@ -19,10 +34,10 @@ function CartItem({ item }) {
                 <MdOutlineClose
                   className="text-xl text-gray-600 hover:text-red-600 cursor-pointer duration-300"
                   onClick={() => {
-                    dispatch(deleteItem(item.id)) &&
-                      toast.error(
-                        `${item.book_name} has been deleted from your cart`
-                      );
+                    dispatch(deleteItem(item.id));
+                    toast.error(
+                      `${item.book_name} has been deleted from your cart`
+                    );
                   }}
                 />
               </div>
@@ -40,7 +55,7 @@ function CartItem({ item }) {
           <div className="flex items-center justify-between mt-4">
             <div className="flex items-center gap-2">
               <button
-                onClick={() => dispatch(decrementQuantity({ id: item.id }))}
+                onClick={handleDecrementQuantity}
                 className="px-3 py-2 text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
                 disabled={item.quantity === 1}
               >
@@ -49,17 +64,10 @@ function CartItem({ item }) {
               <span className="px-3 py-2 text-lg font-medium bg-white rounded-full border border-gray-300">
                 {item.quantity}
               </span>
-
               <button
-                onClick={() =>
-                  dispatch(
-                    increamentQuantity({
-                      id: item.id,
-                    })
-                  )
-                }
+                onClick={handleIncrementQuantity}
                 className="px-3 py-2 text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                disabled={item.quantity === 10}
+                disabled={item.quantity === item.stock}
               >
                 +
               </button>

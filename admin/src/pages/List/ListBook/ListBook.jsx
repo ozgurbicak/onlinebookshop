@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import "./List.css";
+import "./ListBook.css";
 import axios from "axios";
 import { toast } from "react-toastify";
+import EditBook from "./EditBook";
+
 function List() {
   const [list, setList] = useState([]);
+  const [selectedBook, setSelectedBook] = useState(null);
 
   const booksData = async () => {
     try {
@@ -13,7 +16,7 @@ function List() {
         setList(response.data.data);
       }
     } catch (error) {
-      toast.error(error);
+      toast.error(error.message);
     }
   };
 
@@ -27,6 +30,10 @@ function List() {
     } else {
       toast.error("Error");
     }
+  };
+
+  const editBook = (book) => {
+    setSelectedBook(book);
   };
 
   useEffect(() => {
@@ -43,23 +50,33 @@ function List() {
           <h3>Author Name</h3>
           <h3>Category</h3>
           <h3>Price</h3>
+          <h3>Stock</h3>
           <h3>Action</h3>
         </div>
-        {list.map((item, index) => {
-          return (
-            <div key={index} className="list-table-format">
-              <img className="book" src={`${item.image}`} alt="" />
-              <p>{item.book_name}</p>
-              <p>{item.author_name}</p>
-              <p>{item.category}</p>
-              <p>${item.price}</p>
+        {list.map((item, index) => (
+          <div key={index} className="list-table-format">
+            <img className="book" src={item.image} alt={item.book_name} />
+            <p>{item.book_name}</p>
+            <p>{item.author_name}</p>
+            <p>{item.category}</p>
+            <p>${item.price}</p>
+            <p>{item.stock}</p>{" "}
+            <div className="actions">
+              <button onClick={() => editBook(item)}>Edit</button>
               <p onClick={() => removeBook(item.id)} className="cursor">
                 X
               </p>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
+      {selectedBook && (
+        <EditBook
+          book={selectedBook}
+          onClose={() => setSelectedBook(null)}
+          onSave={booksData}
+        />
+      )}
     </div>
   );
 }

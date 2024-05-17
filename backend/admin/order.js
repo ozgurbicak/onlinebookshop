@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectionDB from "../db.js";
+import { splitVendorChunk } from "vite";
 dotenv.config();
 
 const app = express();
@@ -8,9 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const currentDate = new Date().toISOString().slice(0, 19).replace("T", " ");
-
 app.post("/api/order", (req, res) => {
-  console.log(req);
   const {
     full_name,
     email,
@@ -21,7 +20,10 @@ app.post("/api/order", (req, res) => {
     productData,
   } = req.body;
 
-  const SQL = `INSERT INTO orders (ordered_at,full_name,email,phone_number,address,city,total_amount,products_data) VALUES (?,?,?,?,?,?,?,?)`;
+  console.log(JSON.stringify(productData));
+
+  const currentDate = new Date();
+  const SQL = `INSERT INTO orders (ordered_at, full_name, email, phone_number, address, city, total_amount, products_data) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
   const values = [
     currentDate,
     full_name,
@@ -32,6 +34,7 @@ app.post("/api/order", (req, res) => {
     total_amount,
     JSON.stringify(productData),
   ];
+
   if (
     productData.length > 0 &&
     full_name &&
@@ -45,10 +48,41 @@ app.post("/api/order", (req, res) => {
       if (err) {
         res.status(500).send("Internal Server Error");
       } else {
-        console.log("inserted");
-        res.json({ success: true, message: "Sipariş başarıyla oluşturuldu." });
+        console.log("Order inserted");
+
+        // Stok güncelleme
+        let updatePromises = productData.map((item) => {
+          const updateSQL = `UPDATE books SET stock = stock - ? WHERE id = ?`;
+          return new Promise((resolve, reject) => {
+            connectionDB.query(
+              updateSQL,
+              [item.quantity, item.id],
+              (err, result) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(result);
+                }
+              }
+            );
+          });
+        });
+
+        Promise.all(updatePromises)
+          .then(() => {
+            res.json({
+              success: true,
+              message: "Sipariş başarıyla oluşturuldu ve stok güncellendi.",
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+            res.status(500).send("Internal Server Error while updating stock");
+          });
       }
     });
+  } else {
+    res.status(400).send("Bad Request");
   }
 });
 
@@ -81,11 +115,3 @@ app.post("/api/remove/order", (req, res) => {
   });
 });
 export default app;
-
-{
-  /* <td>
-                {JSON.parse(order.products_data)
-                  .map((product) => product.book_name)
-                  .join(", ")}
-              </td> */
-}

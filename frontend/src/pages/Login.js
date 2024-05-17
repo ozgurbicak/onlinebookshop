@@ -4,14 +4,14 @@ import { facebook, google } from "../assets/index";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/UserSlice";
-import { toast } from "react-toastify"; // react-toastify ekleyin
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [errorMessage, setErrorMessage] = useState(null); // State for error message
+  const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -41,7 +41,7 @@ function Login() {
       }
     } catch (error) {
       console.error("Hata:", error);
-      toast.error("Bir hata oluştu."); // Genel hata mesajını göster
+      toast.error("Bir hata oluştu.");
     }
   };
 
@@ -86,7 +86,6 @@ function Login() {
       })
       .catch((error) => {
         console.error("Error fetching successful logins:", error);
-        // Hata durumunda uygun şekilde işlem yapabilirsiniz
       });
   };
 

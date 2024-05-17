@@ -39,7 +39,7 @@ export const BookSlice = createSlice({
     resetCart: (state) => {
       state.productData = [];
     },
-    increamentQuantity: (state, action) => {
+    incrementQuantity: (state, action) => {
       const item = state.productData.find(
         (item) => item.id === action.payload.id
       );
@@ -64,7 +64,7 @@ export const {
   addToCart,
   deleteItem,
   resetCart,
-  increamentQuantity,
+  incrementQuantity,
   decrementQuantity,
 } = BookSlice.actions;
 export default BookSlice.reducer;

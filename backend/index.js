@@ -1,12 +1,10 @@
-// index.js
-
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import session from "express-session";
 import dotenv from "dotenv";
-import googleAuthRouter from "./googleAuth.js"; // google.js modülünü import ettik
-import facebookAuthRouter from "./facebookAuth.js"; // Facebook authentication router'ını import ettik
+import googleAuthRouter from "./googleAuth.js";
+import facebookAuthRouter from "./facebookAuth.js";
 import addRouter from "./admin/add.js";
 import listRouter from "./admin/list.js";
 import orderRouter from "./admin/order.js";
@@ -54,7 +52,7 @@ app.get("/api/books", (req, res) => {
         .status(500)
         .json({ error: "Veri çekme sırasında bir hata oluştu." });
     }
-    return res.json({ success: true, data: data }); // .success alanı eklendi
+    return res.json({ success: true, data: data });
   });
 });
 
@@ -66,7 +64,7 @@ app.get("/api/users", (req, res) => {
         .status(500)
         .json({ error: "Veri çekme sırasında bir hata oluştu." });
     }
-    return res.json({ success: true, data: data }); // .success alanı eklendi
+    return res.json({ success: true, data: data });
   });
 });
 
@@ -129,14 +127,13 @@ app.post("/api/register", (req, res) => {
             .json({ success: false, message: "Kullanıcı oluşturulamadı" });
         }
 
-        // Eğer e-posta adresi veritabanında zaten varsa, hata mesajı döndür
+        // check email
         if (checkUserResults.length > 0) {
           return res.status(400).json({
             success: false,
             message: "Bu e-posta adresi zaten kullanımda",
           });
         } else {
-          // add new user
           const insertUserSql =
             "INSERT INTO users (full_name,email,phone_number, password) VALUES (?, ?, ?,?)";
           connectionDB.query(

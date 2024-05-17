@@ -54,13 +54,13 @@ app.post("/api/adduser", upload.single("picture"), (req, res) => {
       res.status(500).json({ success: false, message: "Database error" });
     } else {
       if (result.length > 0) {
-        // If the email address is already in use, send an error
+        //email address is already in use, send  error
         res.status(400).json({
           success: false,
           message: "This email address is already in use",
         });
       } else {
-        // If the email address is not in use, add the new user
+        //  is not in use, add the new user
         const insertUserSql = `INSERT INTO users (created_at,full_name, email, phone_number, address, password, picture) VALUES (?, ?, ?, ?, ?, ?, ?)`;
         const currentDate = new Date()
           .toISOString()

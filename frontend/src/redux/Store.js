@@ -11,7 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import bookReducer from "./BookSlice";
-import userReducer from "./UserSlice"; // Kullanıcı dilimini dahil edin
+import userReducer from "./UserSlice";
 
 const persistConfig = {
   key: "root",
@@ -19,14 +19,13 @@ const persistConfig = {
   storage,
 };
 
-// Persisted reducers
 const persistedBookReducer = persistReducer(persistConfig, bookReducer);
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
 
 export const store = configureStore({
   reducer: {
     book: persistedBookReducer,
-    user: persistedUserReducer, // Kullanıcı dilimini Redux store'a dahil edin
+    user: persistedUserReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

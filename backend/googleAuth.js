@@ -39,7 +39,7 @@ passport.deserializeUser(function (obj, cb) {
 let successfulLogins = [];
 
 const addSuccessfulLogin = (profile) => {
-  successfulLogins = [profile]; // Her seferinde diziyi sıfırla ve yeni profili ekle
+  successfulLogins = [profile];
 };
 passport.use(
   new GoogleStrategy(

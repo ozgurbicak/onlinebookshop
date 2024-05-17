@@ -13,7 +13,6 @@ function Categories() {
     if (data && data.data) {
       setBookData(data.data);
 
-      // Tüm kategorileri toplayıp benzersiz hale getirelim ve boş olanları filtreleyelim
       const allCategories = data.data.reduce((acc, book) => {
         const bookCategories = book.category
           .split(",")
