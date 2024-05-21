@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { MdOutlineClose } from "react-icons/md";
 import {
@@ -6,16 +7,35 @@ import {
   incrementQuantity,
 } from "../../redux/BookSlice";
 import { toast } from "react-toastify";
+import { useLoaderData } from "react-router-dom";
 
 function CartItem({ item }) {
   const dispatch = useDispatch();
+  const [stock, setStock] = useState(0);
+  const [bookData, setBookData] = useState([]);
+  const data = useLoaderData();
+
+  useEffect(() => {
+    if (data && data.data) {
+      setBookData(data.data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (bookData.length > 0) {
+      const matchedBook = bookData.find((book) => book.id === item.id);
+      if (matchedBook) {
+        setStock(matchedBook.stock);
+      }
+    }
+  }, [item.id, bookData]);
 
   function handleIncrementQuantity() {
-    if (item.quantity < item.stock) {
+    if (item.quantity < stock) {
       dispatch(incrementQuantity({ id: item.id }));
     } else {
       toast.error(
-        `You cannot add more than ${item.stock} of this book to your cart`
+        `You cannot add more than ${stock} of this book to your cart`
       );
     }
   }
@@ -67,7 +87,7 @@ function CartItem({ item }) {
               <button
                 onClick={handleIncrementQuantity}
                 className="px-3 py-2 text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                disabled={item.quantity === item.stock}
+                disabled={item.quantity === stock}
               >
                 +
               </button>

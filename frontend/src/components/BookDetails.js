@@ -9,9 +9,9 @@ function BookDetails() {
   const [quantity, setQuantity] = useState(1);
   const [details, setDetails] = useState({});
   const [rating, setRating] = useState(0);
-  const location = useLocation();
   const dispatch = useDispatch();
   const productData = useSelector((state) => state.book.productData);
+  const location = useLocation();
 
   useEffect(() => {
     setDetails(location.state.item);

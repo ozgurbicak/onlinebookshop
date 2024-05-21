@@ -10,6 +10,7 @@ function Cart() {
   console.log(productData);
   const navigate = useNavigate();
   const [totalAmount, setTotalAmount] = useState("");
+
   useEffect(() => {
     let price = 0;
     productData.forEach((item) => {

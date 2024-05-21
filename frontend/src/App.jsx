@@ -47,10 +47,13 @@ const router = createBrowserRouter([
         path: "/book/:id",
         element: <BookDetails />,
       },
+
       {
         path: "/cart",
         element: <Cart />,
+        loader: booksData,
       },
+
       {
         path: "/authors",
         element: <Authors />,

@@ -45,7 +45,7 @@ function Orders() {
 
   const createChart = (data) => {
     if (chartRef.current) {
-      chartRef.current.destroy(); // Mevcut Chart nesnesini yok et
+      chartRef.current.destroy();
     }
 
     const ctx = document.getElementById("ordersChart");
@@ -64,30 +64,36 @@ function Orders() {
       },
     });
 
-    const booksData = {}; // Kitap satış verilerini saklamak için bir obje
+    const booksData = {};
     data.forEach((order) => {
-      const productsData = JSON.parse(order.products_data); // JSON dizesini nesneye dönüştür
+      const productsData = JSON.parse(order.products_data);
       productsData.forEach((product) => {
         const productName = product.book_name;
         const productQuantity = product.quantity;
         if (booksData[productName]) {
-          booksData[productName] += productQuantity; // Eğer kitap zaten varsa miktarını arttır
+          booksData[productName] += productQuantity;
         } else {
-          booksData[productName] = productQuantity; // Yeni kitapsa objeye ekle
+          booksData[productName] = productQuantity;
         }
       });
     });
 
     if (Object.keys(booksData).length === 0) {
-      // Eğer siparişlerde hiç kitap yoksa, kullanıcıya bir hata mesajı göster
       toast.error("There are no books in any orders.");
       return;
     }
 
-    chartRef.current.data.labels = Object.keys(booksData); // Kitap isimleri
+    const sortedBooks = Object.entries(booksData)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 10);
+
+    const labels = sortedBooks.map(([name]) => name);
+    const quantities = sortedBooks.map(([, quantity]) => quantity);
+
+    chartRef.current.data.labels = labels;
     chartRef.current.data.datasets.push({
       label: "Sales",
-      data: Object.values(booksData), // Kitap satış miktarları
+      data: quantities,
       backgroundColor: "rgba(75, 192, 192, 0.2)",
       borderColor: "rgba(75, 192, 192, 1)",
       borderWidth: 1,
@@ -101,7 +107,7 @@ function Orders() {
   }, []);
 
   const handleRemoveOrder = (event, orderID) => {
-    event.stopPropagation(); // Divin onClick'ini etkilemeden sadece X'in onClick'ini çalıştırır
+    event.stopPropagation();
     removeOrder(orderID);
   };
 
