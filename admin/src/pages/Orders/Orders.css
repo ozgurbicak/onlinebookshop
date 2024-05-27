@@ -1,52 +1,101 @@
-.orders-table-format {
-  display: grid;
-  grid-template-columns: 0.6fr 0.8fr 0.7fr 0.6fr 0.5fr 0.5fr;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 15px;
-  border: 1px solid #cacaca;
-  font-size: 13px;
-  transition: background-color 0.3s ease, color 0.3s ease; /* Renk değişimine geçiş efekti eklendi */
-  cursor: pointer; /* İmleci göster */
-}
-
-.orders-table-format:hover {
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.05
-  ); /* Üzerine gelindiğinde arka plan rengini değiştirin */
-  color: #333; /* Yazı rengini değiştirin */
-}
-
-.orders-table-format.title {
-  background-color: #f9f9f9;
-}
-
-.book {
-  width: 50px;
-}
-
-.profilepic {
-  width: 30px;
-}
-
 .orders {
   width: 70%;
-  margin-left: max(5vw, 25px);
-  margin-top: 50px;
+  margin: 50px auto;
   color: #6d6d6d;
   font-size: 16px;
   gap: 20px;
 }
 
+.date-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.date-filter label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #333;
+}
+
+.date-filter input[type="date"] {
+  padding: 5px 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+.date-filter button {
+  padding: 7px 15px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.date-filter button:hover {
+  background-color: #0056b3;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.orders-table th,
+.orders-table td {
+  border: 1px solid #cacaca;
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 13px;
+}
+
+.orders-table th {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
+
+.orders-table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #333;
+}
+
+.chart-container {
+  width: 100%;
+  height: 400px;
+}
+
+.no-orders-message {
+  text-align: center;
+  font-size: 18px;
+  color: #ff0000;
+  margin-top: 20px;
+}
+
 @media (max-width: 600px) {
-  .orders-table-format {
-    grid-template-columns: 1f1 3f4 1f1;
-    gap: 15px;
+  .date-filter {
+    flex-direction: column;
+    gap: 5px;
   }
-  .orders-table-format.title {
-    display: none;
+
+  .date-filter label,
+  .date-filter button {
+    width: 100%;
+  }
+
+  .orders-table {
+    font-size: 12px;
+  }
+
+  .chart-container {
+    height: 300px;
   }
 }

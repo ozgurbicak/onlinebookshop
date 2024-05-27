@@ -7,6 +7,9 @@ import Chart from "chart.js/auto";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [dateFilter, setDateFilter] = useState("all");
   const navigate = useNavigate();
   const chartRef = useRef(null);
 
@@ -14,8 +17,40 @@ function Orders() {
     try {
       const response = await axios.get("http://localhost:5000/api/orders");
       if (response.data.success) {
-        setOrders(response.data.data);
-        createChart(response.data.data);
+        let filteredOrders = response.data.data;
+
+        const now = new Date();
+        if (dateFilter === "lastWeek") {
+          const lastWeek = new Date();
+          lastWeek.setDate(now.getDate() - 7);
+          filteredOrders = filteredOrders.filter(
+            (order) =>
+              new Date(order.ordered_at) >= lastWeek &&
+              new Date(order.ordered_at) <= now
+          );
+        } else if (dateFilter === "lastMonth") {
+          const lastMonth = new Date();
+          lastMonth.setMonth(now.getMonth() - 1);
+          filteredOrders = filteredOrders.filter(
+            (order) =>
+              new Date(order.ordered_at) >= lastMonth &&
+              new Date(order.ordered_at) <= now
+          );
+        } else {
+          if (startDate) {
+            filteredOrders = filteredOrders.filter(
+              (order) => new Date(order.ordered_at) >= new Date(startDate)
+            );
+          }
+          if (endDate) {
+            filteredOrders = filteredOrders.filter(
+              (order) => new Date(order.ordered_at) <= new Date(endDate)
+            );
+          }
+        }
+
+        setOrders(filteredOrders);
+        createChart(filteredOrders);
       }
     } catch (error) {
       toast.error(error.message);
@@ -104,45 +139,82 @@ function Orders() {
 
   useEffect(() => {
     ordersData();
-  }, []);
+  }, [startDate, endDate, dateFilter]);
 
   const handleRemoveOrder = (event, orderID) => {
     event.stopPropagation();
     removeOrder(orderID);
   };
 
+  const handleDateFilterChange = (filter) => {
+    setDateFilter(filter);
+    setStartDate("");
+    setEndDate("");
+  };
+
   return (
     <div className="orders flex flex-col">
       <p>All ORDERS LIST</p>
-      <div className="orders-table">
-        <div className="orders-table-format title">
-          <h3>ORDER ID</h3>
-          <h3>ORDER DATE</h3>
-          <h3>FULL NAME</h3>
-          <h3>PHONE NUMBER</h3>
-          <h3>TOTAL AMOUNT</h3>
-          <h3>ACTION</h3>
-        </div>
-        {orders.map((item, index) => (
-          <div
-            onClick={() => handleDetail(item.id)}
-            key={index}
-            className="orders-table-format"
-          >
-            <p>{item.id}</p>
-            <p>{item.ordered_at}</p>
-            <p>{item.full_name}</p>
-            <p>{item.phone_number}</p>
-            <p>{item.total_amount}</p>
-            <p
-              onClick={(e) => handleRemoveOrder(e, item.id)}
-              className="cursor"
-            >
-              X
-            </p>
-          </div>
-        ))}
+      <div className="date-filter">
+        <label>
+          Start Date:
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => {
+              setStartDate(e.target.value);
+              setDateFilter("custom");
+            }}
+          />
+        </label>
+        <label>
+          End Date:
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => {
+              setEndDate(e.target.value);
+              setDateFilter("custom");
+            }}
+          />
+        </label>
+        <button onClick={() => handleDateFilterChange("all")}>All</button>
+        <button onClick={() => handleDateFilterChange("lastWeek")}>
+          Last 1 Week
+        </button>
+        <button onClick={() => handleDateFilterChange("lastMonth")}>
+          Last 1 Month
+        </button>
       </div>
+      <table className="orders-table">
+        <thead>
+          <tr>
+            <th>ORDER ID</th>
+            <th>ORDER DATE</th>
+            <th>FULL NAME</th>
+            <th>PHONE NUMBER</th>
+            <th>TOTAL AMOUNT</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((item, index) => (
+            <tr onClick={() => handleDetail(item.id)} key={index}>
+              <td>{item.id}</td>
+              <td>{item.ordered_at}</td>
+              <td>{item.full_name}</td>
+              <td>{item.phone_number}</td>
+              <td>{item.total_amount}</td>
+              <td
+                onClick={(e) => handleRemoveOrder(e, item.id)}
+                className="cursor"
+              >
+                X
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <div className="chart-container">
         <canvas id="ordersChart"></canvas>
       </div>

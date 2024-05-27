@@ -13,6 +13,7 @@ import {
   RouterProvider,
   ScrollRestoration,
 } from "react-router-dom";
+
 import Authors from "./pages/Authors";
 import Register from "./pages/Register";
 
@@ -22,6 +23,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Payment from "./pages/Payment";
 import Categories from "./pages/Categories";
+
 const Layout = () => {
   return (
     <div>

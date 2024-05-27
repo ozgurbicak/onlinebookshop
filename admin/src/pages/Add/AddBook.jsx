@@ -23,14 +23,21 @@ function AddBook() {
   function handleCategory(e) {
     setCategory(e.target.value);
   }
-  function handlePrice(e) {
-    setPrice(e.target.value);
-  }
   function handleAuthor(e) {
     setAuthor(e.target.value);
   }
+  function handlePrice(e) {
+    const inputPrice = e.target.value;
+    if (inputPrice >= 0) {
+      setPrice(inputPrice);
+    }
+  }
+
   function handleStock(e) {
-    setStock(e.target.value); // Stok durumunu güncellemek için
+    const inputStock = e.target.value;
+    if (inputStock >= 0) {
+      setStock(inputStock);
+    }
   }
 
   const handleSubmit = async (e) => {
