@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import multer from "multer";
-import connectionDB from "../db.js";
+import connectionDB from "../config/db.js";
 dotenv.config();
 
 const app = express();

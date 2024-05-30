@@ -91,6 +91,17 @@ function Login() {
 
   const handleFacebookLogin = () => {
     window.open("http://localhost:5000/auth/facebook");
+    axios
+      .get("http://localhost:5000/successful-logins")
+      .then((response) => {
+        const { email, name, picture } = response.data[0]._json;
+        dispatch(login({ email, full_name: name, picture }));
+
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Error fetching successful logins:", error);
+      });
   };
 
   const handleEmailChange = (e) => {

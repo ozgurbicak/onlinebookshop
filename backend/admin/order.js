@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import connectionDB from "../db.js";
+import connectionDB from "../config/db.js";
 import { splitVendorChunk } from "vite";
 dotenv.config();
 
