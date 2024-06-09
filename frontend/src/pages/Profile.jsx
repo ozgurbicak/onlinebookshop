@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { userDefault } from "../assets/index";
 import { logout } from "../redux/UserSlice";
 import axios from "axios";
@@ -15,6 +15,7 @@ function Profile() {
   const data = useLoaderData();
   const [ordersData, setOrdersData] = useState(null);
 
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -40,6 +41,7 @@ function Profile() {
   const dispatch = useDispatch();
   function handleLogout() {
     dispatch(logout());
+    navigate("/login");
     window.location.reload();
   }
 

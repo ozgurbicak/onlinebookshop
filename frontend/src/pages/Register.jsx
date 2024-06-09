@@ -64,14 +64,14 @@ function Register() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex justify-center items-center h-screen font-title"
+      className="flex justify-center items-center min-h-screen bg-gray-100 font-title"
     >
-      <div className="w-full max-w-md bg-slate-100 shadow-md rounded-md overflow-hidden">
+      <div className="w-full max-w-md bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="px-8 py-6">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-            Register
+          <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+            Sign Up
           </h2>
-          <div className="mb-6">
+          <div className="mb-4">
             <label
               htmlFor="name"
               className="block text-sm font-medium text-gray-700 mb-2"
@@ -83,11 +83,11 @@ function Register() {
               onChange={handleFullName}
               id="full_name"
               name="full_name"
-              className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-4 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
               required
             />
           </div>
-          <div className="mb-6">
+          <div className="mb-4">
             <label
               htmlFor="email"
               className="block text-sm font-medium text-gray-700 mb-2"
@@ -99,11 +99,11 @@ function Register() {
               onChange={handleEmail}
               id="email"
               name="email"
-              className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-4 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
               required
             />
           </div>
-          <div className="mb-6">
+          <div className="mb-4">
             <label
               htmlFor="phone_number"
               className="block text-sm font-medium text-gray-700 mb-2"
@@ -118,10 +118,10 @@ function Register() {
               value={phone_number}
               onChange={handlePhoneChange}
               title="Please enter only numeric characters."
-              className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-4 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
             />
           </div>
-          <div className="mb-6">
+          <div className="mb-4">
             <label
               htmlFor="password"
               className="block text-sm font-medium text-gray-700 mb-2"
@@ -133,7 +133,7 @@ function Register() {
               onChange={handlePassword}
               id="password"
               name="password"
-              className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-4 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
               required
             />
           </div>
@@ -149,14 +149,14 @@ function Register() {
               onChange={handleConfirmPassword}
               id="confirmPassword"
               name="confirmPassword"
-              className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-4 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
               required
             />
           </div>
           <div className="flex justify-center">
             <button
               type="submit"
-              className="w-full px-4 py-2 text-white font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+              className="w-full px-4 py-2 text-white font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-500 focus:ring-opacity-50 transition duration-200"
             >
               Sign Up
             </button>

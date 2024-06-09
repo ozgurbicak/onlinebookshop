@@ -7,6 +7,8 @@ import {
   FaYoutube,
   FaHome,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 import { MdLocationOn } from "react-icons/md";
 import { BsPersonFill, BsPaypal } from "react-icons/bs";
 function Footer() {
@@ -15,14 +17,39 @@ function Footer() {
       <div className="max-w-screen-xl mx-auto grid grid-cols-4">
         <div className="flex flex-col gap-7">
           <img className="w-32" src={logodark} alt="logodark" />
-          <p className="text-white text-sm tracking-wide">@ react.dev</p>
           <img className="w-56" src={payment} alt="payment"></img>
           <div className="flex gap-5 text-lg text-gray-200 ">
-            <FaFacebookF className="text-xl text-white hover:text-blue-500 transition duration-300 cursor-pointer" />
-            <FaInstagram className="text-xl text-white hover:text-pink-500 transition duration-300 cursor-pointer" />
-            <FaTwitter className="text-xl text-white hover:text-blue-400 transition duration-300 cursor-pointer" />
-            <FaYoutube className="text-xl text-white hover:text-red-500 transition duration-300 cursor-pointer" />
-            <FaHome className="text-xl text-white hover:text-green-500 transition duration-300 cursor-pointer" />
+            <a
+              href="https://www.facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaFacebookF className="text-xl text-white hover:text-blue-500 transition duration-300 cursor-pointer" />
+            </a>
+            <a
+              href="https://www.instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaInstagram className="text-xl text-white hover:text-pink-500 transition duration-300 cursor-pointer" />
+            </a>
+            <a
+              href="https://www.twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaTwitter className="text-xl text-white hover:text-blue-400 transition duration-300 cursor-pointer" />
+            </a>
+            <a
+              href="https://www.youtube.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaYoutube className="text-xl text-white hover:text-red-500 transition duration-300 cursor-pointer" />
+            </a>
+            <Link to="/">
+              <FaHome className="text-xl text-white hover:text-green-500 transition duration-300 cursor-pointer" />
+            </Link>
           </div>
         </div>
         <div>
@@ -41,36 +68,21 @@ function Footer() {
             <span className="text-lg">
               <BsPersonFill />
             </span>
-            my account
+            <Link to="/profile">my account</Link>
           </p>
-          <p className="flex items-center gap-3 hover:text-white duration-300 cursor-pointer">
-            <span className="text-lg">
-              <BsPaypal />
-            </span>
-            checkout
-          </p>
+
           <p className="flex items-center gap-3 hover:text-white duration-300 cursor-pointer">
             <span className="text-lg">
               <FaHome />
             </span>
-            order tracking
+            <Link to="/profile"> order tracking</Link>
           </p>
           <p className="flex items-center gap-3 hover:text-white duration-300 cursor-pointer">
             <span className="text-lg">
               <MdLocationOn />
             </span>
-            help & support
+            <a href="mailto:storyteller@gmail.com">help & support</a>
           </p>
-        </div>
-        <div className="flex flex-col justify-center">
-          <input
-            className="bg-transparent border px-4 py-2 text-sm"
-            placeholder="e-mail"
-            type="text"
-          />
-          <button className="text-sm border text-white border-t-0 hover:bg-gray-900 active:bg-white active:text-black">
-            Subscribe
-          </button>
         </div>
       </div>
     </div>

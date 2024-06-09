@@ -85,11 +85,11 @@ function Payment() {
             address: "",
             city: "",
           });
-          toast("Siparişiniz başarıyla tamamlandı.");
+          toast("Your order has been completed successfully.");
 
           dispatch(resetCart());
           setTimeout(() => {
-            navigate("/cart");
+            navigate("/");
           }, 2000);
         } else {
           throw new Error("Failed to add order");

@@ -89,20 +89,20 @@ function Login() {
       });
   };
 
-  const handleFacebookLogin = () => {
-    window.open("http://localhost:5000/auth/facebook");
-    axios
-      .get("http://localhost:5000/successful-logins")
-      .then((response) => {
-        const { email, name, picture } = response.data[0]._json;
-        dispatch(login({ email, full_name: name, picture }));
+  // const handleFacebookLogin = () => {
+  //   window.open("http://localhost:5000/auth/facebook");
+  //   axios
+  //     .get("http://localhost:5000/successful-logins")
+  //     .then((response) => {
+  //       const { email, name, picture } = response.data[0]._json;
+  //       dispatch(login({ email, full_name: name, picture }));
 
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Error fetching successful logins:", error);
-      });
-  };
+  //       navigate("/");
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching successful logins:", error);
+  //     });
+  // };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -163,17 +163,19 @@ function Login() {
         </button>
       </form>
 
-      <div className="text-gray-600 text-sm">- OR -</div>
+      <div className="text-gray-600 text-sm flex items-center">- OR -</div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <button
-          type="button"
-          onClick={handleGoogleLogin}
-          className="flex items-center justify-center w-full h-12 px-4 rounded-md text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
-          <img src={google} alt="Google icon" className="w-6 h-6 mr-2" />
-          <span className="text-base font-medium">Sign in with Google</span>
-        </button>
+        <div className="flex items-center justify-center md:col-span-2">
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className="flex items-center justify-center w-full h-12 px-4 rounded-md text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            <img src={google} alt="Google icon" className="w-6 h-6 mr-2" />
+            <span className="text-base font-medium">Sign in with Google</span>
+          </button>
+        </div>
         {/* <h1 onClick={handleGoogleLogin}>homepage</h1>
         <GoogleLogin
           clientId={GOOGLE_CLIENT_ID}
@@ -182,7 +184,7 @@ function Login() {
           onFailure={handleGoogleLogin}
           cookiePolicy={"single_host_origin"}
         /> */}
-        <button
+        {/* <button
           type="button"
           onClick={handleFacebookLogin}
           className="flex items-center justify-center w-full h-12 px-4 rounded-md text-gray-700 bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
@@ -191,7 +193,7 @@ function Login() {
           <span className="text-base font-medium text-white">
             Sign in with Facebook
           </span>
-        </button>
+        </button> */}
       </div>
 
       <p className="text-gray-600 mt-4">

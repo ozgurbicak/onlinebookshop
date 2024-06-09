@@ -124,8 +124,8 @@ function BookDetails() {
             </button>
           </div>
           <p className="text-base font-medium text-gray-500">
-            Categories:{" "}
-            <span className="font-medium capitalize">{details.categories}</span>
+            Categories:
+            <span className="font-medium capitalize"> {details.category}</span>
           </p>
         </div>
       </div>

@@ -154,7 +154,7 @@ function Orders() {
 
   return (
     <div className="orders flex flex-col">
-      <p>All ORDERS LIST</p>
+      <p>ORDERS LIST</p>
       <div className="date-filter">
         <label>
           Start Date:
